@@ -11,6 +11,8 @@ import android.view.SurfaceView;
 
 import java.io.InputStream;
 
+import demon.genmo3.engine.utils.TimerUtils;
+
 public class MainActivity extends AppCompatActivity
 {
     private SurfaceView sv;
@@ -28,5 +30,11 @@ public class MainActivity extends AppCompatActivity
         //添加回调函数
         sh.addCallback(new Dothings(sh,sv,r2));
 
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
     }
 }

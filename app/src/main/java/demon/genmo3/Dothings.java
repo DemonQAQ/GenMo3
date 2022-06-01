@@ -5,11 +5,15 @@ import android.graphics.Bitmap;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import demon.genmo3.engine.render.DynamicTexture;
+import demon.genmo3.engine.render.Texture;
+
 public class Dothings implements SurfaceHolder.Callback
 {
     private SurfaceHolder sh;
     private SurfaceView sv;
     private Bitmap image;
+
     Resources r2;
 
     public Dothings(SurfaceHolder sh, SurfaceView sv, Resources r2) {
