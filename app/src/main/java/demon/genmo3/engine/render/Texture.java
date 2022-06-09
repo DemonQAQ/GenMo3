@@ -56,6 +56,16 @@ public class Texture implements Drawable
         this.left = left;
     }
 
+    public int getWidth()
+    {
+        return this.img.getWidth();
+    }
+
+    public int getHeight()
+    {
+        return this.img.getHeight();
+    }
+
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {

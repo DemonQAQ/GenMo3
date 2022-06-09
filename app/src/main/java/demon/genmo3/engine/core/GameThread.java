@@ -1,5 +1,7 @@
 package demon.genmo3.engine.core;
 
+import java.util.TimerTask;
+
 import demon.genmo3.engine.utils.TimerUtils;
 
 public class GameThread implements Runnable
@@ -21,7 +23,11 @@ public class GameThread implements Runnable
         update();
         draw();
         delta = TimerUtils.getTime() - current;
+        setDelta();
     }
+
+
+
 
     //执行所以的游戏逻辑
     private void update()
@@ -36,8 +42,8 @@ public class GameThread implements Runnable
         g.draw();
     }
 
-    protected long getDelta()
+    protected void setDelta()
     {
-        return this.delta;
+        TimerUtils.setDelta(delta);
     }
 }

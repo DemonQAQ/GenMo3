@@ -7,6 +7,7 @@ public class TimerUtils
 {
     private final static Timer globalTimer = new Timer();
     private static long time;
+    private static long DELTA = 0;
 
     public static void start()
     {
@@ -28,5 +29,20 @@ public class TimerUtils
     public static long getTime()
     {
         return time;
+    }
+
+    public static Timer getTimer()
+    {
+        return globalTimer;
+    }
+
+    public static void setDelta(long delta)
+    {
+        DELTA = delta;
+    }
+
+    public static long getDelta()
+    {
+        return DELTA;
     }
 }

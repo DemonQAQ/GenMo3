@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GenMo3">
         <activity
-            android:name=".MainActivity"
+            android:name=".game.MainActivity"
+			android:screenOrientation="landscape"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
