@@ -1,20 +1,24 @@
-package demon.genmo3.engine.sprite;
+package demon.genmo3.engine.sprite.component.map;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
+import demon.genmo3.engine.physics.Gravity;
 import demon.genmo3.engine.physics.Movable;
 import demon.genmo3.engine.render.Drawable;
 import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
+import demon.genmo3.engine.sprite.EntitySprite;
+import demon.genmo3.engine.sprite.Sprite;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 
 /*
 * X,Y代表当前渲染坐标
 * 地图内坐标储存在mapSprite内
 * */
-public class BuildingSprite extends Sprite implements Drawable, Movable
+public class GroundSprite extends Sprite implements Drawable, Building
 {
     private boolean left = false;
     private boolean dynamic;
@@ -22,7 +26,7 @@ public class BuildingSprite extends Sprite implements Drawable, Movable
     private DynamicTexture backgroundD;
     private CollisionBox collisionBox;
 
-    public BuildingSprite(Texture bg,int x,int y, int width, int height)
+    public GroundSprite(Texture bg, int x, int y, int width, int height)
     {
         dynamic = bg instanceof DynamicTexture;
         if (dynamic)
@@ -50,13 +54,34 @@ public class BuildingSprite extends Sprite implements Drawable, Movable
     @Override
     public boolean intersect(Movable e)
     {
+        if (getCollisionBox().checkIntersect(e.getCollisionBox())) return getCollisionBox().checkAboveIntersect(e.getCollisionBox());
         return false;
     }
 
     @Override
     public void onIntersect(Movable e)
     {
+        if (e instanceof Gravity)
+        {
+            Gravity sprite = (Gravity) e;
+            if (!sprite.isOnGround())
+            {
+                sprite.setOnGround(true);
+                sprite.setYOnGround(this.getCollisionBox().y);
+            }
+        }
+    }
 
+    @Override
+    public void setXOnWall(float x,boolean left)
+    {
+
+    }
+
+    @Override
+    public CollisionBox getCollisionBox()
+    {
+        return this.collisionBox;
     }
 
     private Bitmap getImage()

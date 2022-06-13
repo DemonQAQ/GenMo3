@@ -2,6 +2,7 @@ package demon.genmo3.engine.sprite;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import demon.genmo3.engine.control.Keys;
 import demon.genmo3.engine.physics.Gravity;
@@ -12,7 +13,6 @@ import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.component.Animations;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.sprite.component.StateMachine;
-import demon.genmo3.engine.sprite.component.state.StateType;
 import demon.genmo3.engine.utils.TimerUtils;
 
 /*
@@ -21,11 +21,14 @@ import demon.genmo3.engine.utils.TimerUtils;
 public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
 {
     private float xSpeed = 0;
-    private float xAccelerate = 250;
-    private float xSpeedMax = 1000;
+    private float xAccelerate = 0;
+    private float xRunAccelerate = 1000;
+    //影响减速时的加速度。值越大，停止移动后速度就越快回到0
+    private float brakePower = 3.0f;
+    private float xSpeedMax = 2000;
     private float ySpeed = 0;
-    private float yAccelerate = 100;
-    private float ySpeedMax = 200;
+    private float yAccelerate = 0;
+    private float ySpeedMax = 2000;
     private CollisionBox collisionBox;
     private Animations animations;
     private StateMachine stateMachine;
@@ -52,32 +55,85 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     @Override
     public void onUpdate()
     {
+        stateEvent();
+        speedEvent();
+    }
+
+    private void stateEvent()
+    {
         stateMachine.update();
 //        if (stateMachine.isTranslate())
 //        {
 //            texture = animations.get(stateMachine.getState());
 //        }
-        if (!Keys.LEFT.use() && !Keys.RIGHT.use())
+
+    }
+
+    private void speedEvent()
+    {
+        //松开按键
+        if (xSpeed != 0 && !Keys.LEFT.use() && !Keys.RIGHT.use())
         {
-            xSpeed -= 0.25 * xAccelerate * (TimerUtils.getDelta() / 1000f);
-            if (xSpeed<0)xSpeed=0;
+            if (stateMachine.getDirection())
+            {
+                xAccelerate = brakePower * xRunAccelerate;
+                if (xSpeed > 0)
+                {
+                    xSpeed = 0;
+                    xAccelerate = 0;
+                }
+            } else
+            {
+                xAccelerate = brakePower * -xRunAccelerate;
+                if (xSpeed < 0)
+                {
+                    xSpeed = 0;
+                    xAccelerate = 0;
+                }
+            }
         }
+        //按下一侧方向键
         if (Keys.LEFT.use() && !Keys.RIGHT.use() || !Keys.LEFT.use() && Keys.RIGHT.use())
         {
-            xSpeed = Math.min((xSpeed + xAccelerate * (TimerUtils.getDelta() / 1000f)), xSpeedMax);
+            if (Keys.LEFT.use())
+            {
+                if (xSpeed > 0)
+                {
+                    xSpeed = 0.5f * xSpeed;
+                } else xAccelerate = -xRunAccelerate;
+            } else
+            {
+                if (xSpeed < 0)
+                {
+                    xSpeed = 0.5f * xSpeed;
+                } else xAccelerate = xRunAccelerate;
+            }
         }
-        if (stateMachine.getState().equals(StateType.JUMPING.getState()))
+        if (stateMachine.getDirection())
         {
-            ySpeed = Math.min((ySpeed + yAccelerate * (TimerUtils.getDelta() / 1000f)), xSpeedMax);
+            xSpeed = Math.max((xSpeed + xAccelerate * TimerUtils.getDelta()), -xSpeedMax);
+        } else xSpeed = Math.min((xSpeed + xAccelerate * TimerUtils.getDelta()), xSpeedMax);
+        if (!stateMachine.isOnGround())
+        {
+            ySpeed = ySpeed + yAccelerate * TimerUtils.getDelta();
+            Log.d("yA", String.valueOf(yAccelerate));
+            Log.d("ySpeed", String.valueOf(ySpeed));
+            if (ySpeed < 0) ySpeed = Math.max(ySpeed, -ySpeedMax);
+            if (ySpeed > 0) ySpeed = Math.min(ySpeed, ySpeedMax);
         }
     }
 
     @Override
     public boolean isOnGround()
     {
+//        boolean f = (stateMachine.getState().equals(StateType.JUMPING.getState())) && !stateMachine.isOnGround();
+//        Log.d("onground", String.valueOf(f));
+//        if ((stateMachine.getState().equals(StateType.JUMPING.getState())) && !stateMachine.isOnGround())
+//            return true;
         return stateMachine.isOnGround();
     }
 
+    @Override
     public void setOnGround(boolean flag)
     {
         stateMachine.setOnGround(flag);
@@ -88,10 +144,8 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     @Override
     public void move()
     {
-        //左边
-        if (stateMachine.getDirection()) setX(getX() - (xSpeed * (TimerUtils.getDelta() / 1000f)));
-        else setX(getX() + (xSpeed * (TimerUtils.getDelta() / 1000f)));
-        setY(getY() + (ySpeed * (TimerUtils.getDelta() / 1000f)));
+        setX(getX() + (xSpeed * TimerUtils.getDelta()));
+        setY(getY() + (ySpeed * TimerUtils.getDelta()));
         moveCollisionBox();
     }
 
@@ -112,6 +166,8 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     {
 
     }
+
+
 
     @Override
     public void onDraw(Canvas canvas, Paint p)
@@ -157,6 +213,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         return yAccelerate;
     }
 
+    @Override
     public void setYAccelerate(float yAccelerate)
     {
         this.yAccelerate = yAccelerate;
@@ -182,6 +239,19 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         return collisionBox.height;
     }
 
+    public void setYOnGround(float y)
+    {
+        super.setY(y - (0.5f * (this.getCollisionBox().height + this.texture.getHeight())));
+    }
+
+    @Override
+    public void setXOnWall(float x,boolean left)
+    {
+        if (left)setX(x - (0.5f * (this.getCollisionBox().width + this.texture.getWidth())));
+        else setX(x - (0.5f * (this.texture.getWidth() - this.getCollisionBox().width)));
+    }
+
+    @Override
     public CollisionBox getCollisionBox()
     {
         return collisionBox;

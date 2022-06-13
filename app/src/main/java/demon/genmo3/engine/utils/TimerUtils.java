@@ -41,8 +41,8 @@ public class TimerUtils
         DELTA = delta;
     }
 
-    public static long getDelta()
+    public static float getDelta()
     {
-        return DELTA;
+        return DELTA / 1000f;
     }
 }

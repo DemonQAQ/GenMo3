@@ -7,16 +7,24 @@ import demon.genmo3.engine.control.Keys;
 import demon.genmo3.engine.physics.Gravity;
 import demon.genmo3.engine.physics.Movable;
 import demon.genmo3.engine.sprite.EntitySprite;
+import demon.genmo3.engine.sprite.component.map.Building;
+import demon.genmo3.engine.sprite.component.map.MapSprite;
 import demon.genmo3.engine.utils.TimerUtils;
 
 public class PhysicsSpriteQueue
 {
     private static final ArrayList<Gravity> GRAVITY_LIST = new ArrayList<>();
     private static final ArrayList<Movable> MOVABLE_LIST = new ArrayList<>();
+    private static MapSprite Map;
 
     public PhysicsSpriteQueue()
     {
 
+    }
+
+    public void setMap(MapSprite map)
+    {
+        Map = map;
     }
 
     public void onPhysics()
@@ -27,10 +35,17 @@ public class PhysicsSpriteQueue
         move();
     }
 
-    private void move()
+    public void onMapCheck()
     {
         //刷新地图位置
+        if (Map!=null)
+        {
+            Map.onUpdate(MOVABLE_LIST.toArray(new Movable[0]));
+        }
+    }
 
+    private void move()
+    {
         //碰撞检测
         Movable[] m = MOVABLE_LIST.toArray(new Movable[0]);
         MOVABLE_LIST.forEach(e->
@@ -50,17 +65,12 @@ public class PhysicsSpriteQueue
         {
             if (!e.isOnGround())
             {
-                if (e instanceof EntitySprite)
-                {
-                    EntitySprite sprite = (EntitySprite) e;
-                    if (sprite.getY() + sprite.getHeight() >= 750)
-                    {
-                        sprite.setOnGround(true);
-                        sprite.setY(750 - sprite.getHeight());
-                        sprite.setYSpeed(0);
-                    }
-                    else sprite.setYSpeed(sprite.getYSpeed()-(Gravity.G* (TimerUtils.getDelta()/1000f)));
-                }
+                e.setYAccelerate(Gravity.G);
+            }
+            else
+            {
+                e.setYAccelerate(0);
+                e.setYSpeed(0);
             }
         });
     }

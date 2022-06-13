@@ -4,12 +4,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import demon.genmo3.R;
@@ -17,8 +15,9 @@ import demon.genmo3.engine.control.ButtonListener;
 import demon.genmo3.engine.control.KeyEvent;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
-import demon.genmo3.engine.sprite.MapSprite;
-import demon.genmo3.engine.sprite.component.CollisionBox;
+import demon.genmo3.engine.sprite.component.map.GroundSprite;
+import demon.genmo3.engine.sprite.component.map.MapSprite;
+import demon.genmo3.engine.sprite.component.map.WallSprite;
 import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.game.core.Engine;
 
@@ -95,11 +94,26 @@ public class MainActivity extends AppCompatActivity
         //创建引擎部分
         player = new EntitySprite(999,500,TextureUtils.getTexture(R.drawable.player),50,50);
         Texture img =TextureUtils.getTexture(R.drawable.background);
+        Texture img1 =TextureUtils.getTexture(R.drawable.test1);
         m = new MapSprite(img,2160,1080,player,0,0);
         player.setOnGround(false);
+        //MapSprite map = new MapSprite(m,engine.SCREEN_WIDTH,engine.SCREEN_HEIGHT,player,player.getXPoint(),player.getYPoint());
+        GroundSprite ground = new GroundSprite(img1,0,800,2160,300);
+        WallSprite ground1 = new WallSprite(img1,1500,700,300,100);
+        WallSprite ground2 = new WallSprite(img1,100,700,300,100);
+        WallSprite ground3 = new WallSprite(img1,1100,500,300,100);
+        m.add(ground);
+        m.add(ground1);
+        m.add(ground2);
+        m.add(ground3);
         engine.executableSpriteQueue.add(player);
+        engine.physicsSpriteQueue.setMap(m);
         engine.renderSpriteQueue.add(m);
         engine.renderSpriteQueue.add(player);
+        engine.renderSpriteQueue.add(ground.getCollisionBox());
+        engine.renderSpriteQueue.add(ground1.getCollisionBox());
+        engine.renderSpriteQueue.add(ground2.getCollisionBox());
+        engine.renderSpriteQueue.add(ground3.getCollisionBox());
         engine.renderSpriteQueue.add(player.getCollisionBox());
         engine.physicsSpriteQueue.add(player);
         //engine.renderSpriteQueue.add(m);

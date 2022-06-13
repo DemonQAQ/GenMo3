@@ -15,10 +15,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import demon.genmo3.R;
-import demon.genmo3.engine.core.GameThread;
-import demon.genmo3.engine.render.Texture;
-import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 
 /*
@@ -85,7 +81,8 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
     @Override
     public void update()
     {
-        if (start)this.executableSpriteQueue.onUpdate();
+        this.physicsSpriteQueue.onMapCheck();
+        this.executableSpriteQueue.onUpdate();
     }
 
     @Override
@@ -123,4 +120,5 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
     {
 
     }
+
 }

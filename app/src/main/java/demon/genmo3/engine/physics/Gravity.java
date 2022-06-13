@@ -5,8 +5,11 @@ package demon.genmo3.engine.physics;
 * */
 public interface Gravity
 {
-    float G = -98;
+    float G = 1500;
     boolean isOnGround();
+    void setOnGround(boolean flag);
     void setYSpeed(float value);
     float getYSpeed();
+    void setYOnGround(float y);
+    void setYAccelerate(float yAccelerate);
 }

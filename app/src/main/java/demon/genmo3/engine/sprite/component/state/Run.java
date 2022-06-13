@@ -1,5 +1,7 @@
 package demon.genmo3.engine.sprite.component.state;
 
+import android.util.Log;
+
 import demon.genmo3.engine.control.Keys;
 import demon.genmo3.engine.sprite.component.StateMachine;
 
@@ -14,6 +16,7 @@ public class Run extends State
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
+        Log.d("state", String.valueOf(this.type));
         if (Keys.LEFT.use() && !Keys.RIGHT.use())
         {
             stateMachine.setDirection(true);
@@ -26,6 +29,7 @@ public class Run extends State
         {
             stateMachine.setOnGround(false);
             stateMachine.setPreState(this.type);
+            stateMachine.getSprite().setYSpeed(-700);
             return StateList.getState(StateType.JUMPING);
         }
         if (!Keys.LEFT.use()&&!Keys.RIGHT.use())

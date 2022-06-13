@@ -11,7 +11,6 @@ import demon.genmo3.engine.sprite.component.state.StateType;
 public class StateMachine
 {
     private EntitySprite sprite;
-    private StateType state;
     private StateType preState;
     private State state_;
     //true代表左边，false代表右边
@@ -21,10 +20,9 @@ public class StateMachine
 
     public StateMachine(EntitySprite sprite)
     {
-        this.state = StateType.IDLE;
-        this.preState = state;
+        this.preState = StateType.IDLE;
         this.sprite = sprite;
-        this.state_ = StateList.getState(state);
+        this.state_ = StateList.getState(StateType.IDLE);
     }
 
     //Sprite析构时解除对其的引用
@@ -48,9 +46,9 @@ public class StateMachine
         return this.direction;
     }
 
-    public void setState(StateType state)
+    public void setState(State state_)
     {
-        this.state = state;
+        this.state_ = state_;
     }
 
     public StateType getPreState()

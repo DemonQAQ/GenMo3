@@ -18,11 +18,12 @@ public class ButtonListener implements View.OnTouchListener
     {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
         {
-            Log.d("test", "123456");
+            Log.d("down", String.valueOf(keyValue));
             Keys.add(keyValue);
         }
         if (motionEvent.getAction() == MotionEvent.ACTION_UP)
         {
+            Log.d("up", String.valueOf(keyValue));
             Keys.remove(keyValue);
         }
         return false;
