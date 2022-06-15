@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 
+import demon.genmo3.engine.core.GameEngine;
 import demon.genmo3.engine.physics.Gravity;
 import demon.genmo3.engine.physics.Movable;
 import demon.genmo3.engine.render.Drawable;
@@ -13,18 +14,22 @@ import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.Sprite;
 import demon.genmo3.engine.sprite.component.CollisionBox;
+import demon.genmo3.engine.utils.ValueUtils;
 
 /*
 * X,Y代表当前渲染坐标
 * 地图内坐标储存在mapSprite内
 * */
-public class GroundSprite extends Sprite implements Drawable, Building
+public class GroundSprite extends Sprite implements Building
 {
-    private boolean left = false;
-    private boolean dynamic;
+    private final boolean left = false;
+    private boolean contain = true;
+    private final boolean dynamic;
+    private final float rX;
+    private final float rY;
     private Texture background;
     private DynamicTexture backgroundD;
-    private CollisionBox collisionBox;
+    private final CollisionBox collisionBox;
 
     public GroundSprite(Texture bg, int x, int y, int width, int height)
     {
@@ -35,6 +40,8 @@ public class GroundSprite extends Sprite implements Drawable, Building
             backgroundD.start();
         }
         else background = bg;
+        this.rX = x;
+        this.rY = y;
         collisionBox = new CollisionBox(x,y,width,height);
     }
 
@@ -47,7 +54,8 @@ public class GroundSprite extends Sprite implements Drawable, Building
     @Override
     public void move()
     {
-
+        this.collisionBox.x = getX();
+        this.collisionBox.y = getY();
     }
 
 
@@ -94,5 +102,20 @@ public class GroundSprite extends Sprite implements Drawable, Building
         {
             return background.getImg(left);
         }
+    }
+
+    @Override
+    public void onUpdate(float mX, float mY)
+    {
+        setX(rX - mX);
+        setY(rY - mY);
+        contain = !(getX() + getCollisionBox().width < 0) && !(getX() > ValueUtils.SCREEN_WIDTH);
+        if (getY() + getCollisionBox().height < 0 || getY() > ValueUtils.SCREEN_HEIGHT)contain = false;
+    }
+
+    @Override
+    public boolean getContain()
+    {
+        return contain;
     }
 }

@@ -22,6 +22,7 @@ import demon.genmo3.engine.sprite.component.map.WallSprite;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.QueueUtils;
 import demon.genmo3.engine.utils.TextureUtils;
+import demon.genmo3.engine.utils.ValueUtils;
 import demon.genmo3.game.core.Engine;
 
 public class MainActivity extends AppCompatActivity
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity
         DynamicTexture dynamicTexture = TextureUtils.getDynamicTexture(R.drawable.idle,4,4,15,100,true);
         player = new EntitySprite(1000, 500, dynamicTexture, 50, 50);
         Texture img = TextureUtils.getTexture(R.drawable.background);
+        ValueUtils.init(2160,1080);
         m = new MapSprite(img, 2160, 1080, player, 2080, 1580);
         MapUtils.changeMap(m);
         QueueUtils.init(engine);

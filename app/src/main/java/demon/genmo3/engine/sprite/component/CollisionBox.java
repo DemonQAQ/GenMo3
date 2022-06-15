@@ -38,33 +38,27 @@ public class CollisionBox implements Drawable
 
     public boolean checkIntersect(CollisionBox e)
     {
-//        boolean f = Math.max(this.x,e.x)<=Math.min(this.x+this.width,e.x+e.width)&&Math.max(this.y,e.y)<=Math.min(this.y+this.height,e.y+e.height);
-//        Log.d("Intersect", String.valueOf(f));
-//        String str = "["+this.x +","+ e.x +"],["+ (this.x+this.width) +","+ (e.x+e.width)+"],["+this.y+","+e.y+"],["+(this.y+this.height)+","+(e.y+e.height)+"]";
-//        Log.d("ponit",str );
         return Math.max(this.x, e.x) <= Math.min(this.x + this.width, e.x + e.width) && Math.max(this.y, e.y) <= Math.min(this.y + this.height, e.y + e.height);
     }
 
     public boolean checkAboveIntersect(CollisionBox e)
     {
-//            boolean f = e.y + e.height > this.y;
-//            Log.d("AboveIntersect", String.valueOf(f));
-            return e.y + e.height >= this.y;
+        return e.y + e.height <= this.y + this.height;
     }
 
     public boolean checkSideIntersect(CollisionBox e)
     {
-        if (this.y <= e.y && e.y <= this.y + e.height)
+        if (e.y + 0.5f * e.height > this.y & e.y < this.y + this.height)
         {
-            float centerX = (0.5f*(this.x + this.width));
-            return e.x + e.width <= centerX || e.x >= centerX;
+            return e.x + e.width < this.x + 0.5f * e.width || e.x > this.x + this.width - 0.5f * e.width;
         }
         return false;
     }
 
     public boolean checkBelowIntersect(CollisionBox e)
     {
-        return  (this.y + this.height > e.y - (0.5f*e.height));
+        if (e.x + 0.75f * e.width < this.x || e.x > this.x + this.width) return false;
+        return (this.y + this.height > e.y + (0.5f * e.height));
     }
 
     @Override

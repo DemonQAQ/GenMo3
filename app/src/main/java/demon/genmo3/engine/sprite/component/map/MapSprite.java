@@ -21,19 +21,20 @@ import demon.genmo3.engine.sprite.Sprite;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.utils.QueueUtils;
 import demon.genmo3.engine.utils.TimerUtils;
+import demon.genmo3.engine.utils.ValueUtils;
 
 public class MapSprite extends Sprite implements Drawable, Movable
 {
-    private int screenWidth;
-    private int screenHeight;
-    private int mapWidth;
-    private int mapHeight;
-    private boolean dynamic;
+    private final int screenWidth;
+    private final int screenHeight;
+    private final int mapWidth;
+    private final int mapHeight;
+    private final boolean dynamic;
     private boolean intersect;
     private Texture background;
     private DynamicTexture backgroundD;
     private Bitmap renderRange;
-    private EntitySprite lockOnSprite;
+    private final EntitySprite lockOnSprite;
     //玩家在地图里的坐标
     private float lX;
     private float lY;
@@ -101,7 +102,6 @@ public class MapSprite extends Sprite implements Drawable, Movable
         checkContain();
     }
 
-    //todo clear debug value
     private void updatePlayerPoint()
     {
         this.preX = this.lX;
@@ -112,10 +112,6 @@ public class MapSprite extends Sprite implements Drawable, Movable
         this.lY = (getY() + lockOnSprite.getYPoint());
         if (this.lY < 0) this.lY = 0;
         if (this.lY > this.mapHeight) this.lY = this.mapHeight;
-//        Log.i("now(lX,lY)", "(" + this.lX + "," + this.lY + ")");
-//        Log.i("now(preX,preY)", "(" + this.preX + "," + this.preY + ")");
-//        Log.i("map(X,Y)", "(" + getX() + "," + getY() + ")");
-//        Log.i("player(X,Y)", "(" + lockOnSprite.getXPoint() + "," + lockOnSprite.getYPoint() + ")");
     }
 
     private void updateRenderRange()
@@ -155,11 +151,11 @@ public class MapSprite extends Sprite implements Drawable, Movable
             if (e.getContain())
             {
                 renderSpriteQueue.add(e);
-                renderSpriteQueue.add(e.getCollisionBox());
+//                renderSpriteQueue.add(e.getCollisionBox());
             } else
             {
                 renderSpriteQueue.remove(e);
-                renderSpriteQueue.remove(e.getCollisionBox());
+//                renderSpriteQueue.remove(e.getCollisionBox());
             }
         });
     }
@@ -248,13 +244,13 @@ public class MapSprite extends Sprite implements Drawable, Movable
             else if (this.lX > (getX() + 0.8f * screenWidth) & lockOnSprite.getDirection())
                 playerInArea = true;
         }
-        boolean mapInEdge = getX() <= 0 || getX() >= mapWidth - GameEngine.SCREEN_WIDTH;
+        boolean mapInEdge = getX() <= 0 || getX() >= mapWidth - ValueUtils.SCREEN_WIDTH;
         if (mapInEdge)
         {
             if (getX() <= 0 & lockOnSprite.getXPoint() <= 0)
             {
                 mapInEdge = false;
-            } else if (getX() >= mapWidth - GameEngine.SCREEN_WIDTH & lockOnSprite.getXPoint() >= mapWidth)
+            } else if (getX() >= mapWidth - ValueUtils.SCREEN_WIDTH & lockOnSprite.getXPoint() >= mapWidth)
             {
                 mapInEdge = false;
             }
@@ -267,7 +263,6 @@ public class MapSprite extends Sprite implements Drawable, Movable
         boolean playerInArea = this.lY >= (getY() + 0.1f * screenHeight) & this.lY <= (getY() + 0.9f * screenHeight);
         if (!playerInArea)
         {
-            //if (this.lockOnSprite.isOnGround()) playerInArea = true;
             if (this.lY < (getY() + 0.1f * screenHeight) && this.lockOnSprite.getYSpeed() > 0)
                 playerInArea = true;
             if (this.lY > (getY() + 0.9f * screenHeight) && this.lockOnSprite.getYSpeed() < 0)
@@ -279,7 +274,7 @@ public class MapSprite extends Sprite implements Drawable, Movable
             if (getY() <= 0 & lockOnSprite.getYPoint() <= 0)
             {
                 mapInEdge = false;
-            } else if (getY() >= mapWidth - GameEngine.SCREEN_HEIGHT & lockOnSprite.getYPoint() >= mapWidth)
+            } else if (getY() >= mapWidth - ValueUtils.SCREEN_HEIGHT & lockOnSprite.getYPoint() >= mapWidth)
             {
                 mapInEdge = false;
             }

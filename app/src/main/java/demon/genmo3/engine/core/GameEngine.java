@@ -22,13 +22,10 @@ import demon.genmo3.engine.utils.TimerUtils;
  * */
 public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Callback, Engine
 {
-    public static int SCREEN_WIDTH;
-    public static int SCREEN_HEIGHT;
     private SurfaceHolder holder;
     private GameThread mainThread;
     private Canvas canvas;
     private Paint cleaner;
-    private boolean start;
     public RenderSpriteQueue renderSpriteQueue;
     public PhysicsSpriteQueue physicsSpriteQueue;
     public ExecutableSpriteQueue executableSpriteQueue;
@@ -69,7 +66,6 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
         TimerUtils.start();
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
         executor.scheduleAtFixedRate(mainThread, 0, 16, TimeUnit.MILLISECONDS);
-        this.start=true;
     }
 
     @Override
@@ -108,8 +104,6 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
         holder.addCallback(this);
         cleaner = new Paint();
         cleaner.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR));
-        SCREEN_WIDTH = this.getWidth();
-        SCREEN_HEIGHT = this.getWidth();
         this.renderSpriteQueue = new RenderSpriteQueue();
         this.physicsSpriteQueue = new PhysicsSpriteQueue();
         this.executableSpriteQueue = new ExecutableSpriteQueue();
