@@ -15,6 +15,7 @@ public class PhysicsSpriteQueue
 {
     private static final ArrayList<Gravity> GRAVITY_LIST = new ArrayList<>();
     private static final ArrayList<Movable> MOVABLE_LIST = new ArrayList<>();
+    private static final ArrayList<Movable> MOVABLE_LIST_DONT_INTERSECT = new ArrayList<>();
     private static MapSprite Map;
 
     public PhysicsSpriteQueue()
@@ -56,7 +57,9 @@ public class PhysicsSpriteQueue
             }
         });
         //处理坐标变换
+        MOVABLE_LIST_DONT_INTERSECT.forEach(Movable::move);
         MOVABLE_LIST.forEach(Movable::move);
+
     }
 
     private void gravity()
@@ -78,18 +81,28 @@ public class PhysicsSpriteQueue
 
     public void addG(Gravity e)
     {
-        GRAVITY_LIST.add(e);
+        if (!GRAVITY_LIST.contains(e))GRAVITY_LIST.add(e);
     }
 
     public void addM(Movable e)
     {
-        MOVABLE_LIST.add(e);
+        if (!MOVABLE_LIST.contains(e))MOVABLE_LIST.add(e);
+    }
+
+    public void addMDI(Movable e)
+    {
+        if (!MOVABLE_LIST_DONT_INTERSECT.contains(e))MOVABLE_LIST_DONT_INTERSECT.add(e);
+    }
+
+    public void removeMDI(Movable e)
+    {
+        MOVABLE_LIST_DONT_INTERSECT.remove(e);
     }
 
     public <E> void add(E e)
     {
-        if (e instanceof Gravity) GRAVITY_LIST.add((Gravity) e);
-        if (e instanceof Movable) MOVABLE_LIST.add((Movable) e);
+        if (!GRAVITY_LIST.contains(e) && e instanceof Gravity) GRAVITY_LIST.add((Gravity) e);
+        if (!MOVABLE_LIST.contains(e) &&e instanceof Movable) MOVABLE_LIST.add((Movable) e);
     }
 
     public void removeG(Gravity e)

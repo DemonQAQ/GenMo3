@@ -13,11 +13,14 @@ import android.widget.ImageButton;
 import demon.genmo3.R;
 import demon.genmo3.engine.control.ButtonListener;
 import demon.genmo3.engine.control.KeyEvent;
+import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.component.map.GroundSprite;
 import demon.genmo3.engine.sprite.component.map.MapSprite;
 import demon.genmo3.engine.sprite.component.map.WallSprite;
+import demon.genmo3.engine.utils.MapUtils;
+import demon.genmo3.engine.utils.QueueUtils;
 import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.game.core.Engine;
 
@@ -53,14 +56,14 @@ public class MainActivity extends AppCompatActivity
     {
         //隐藏状态栏标题栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)actionBar.hide();
+        if (actionBar != null) actionBar.hide();
         setContentView(R.layout.activity_main);
         //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         engine = findViewById(R.id.gameView);
@@ -92,31 +95,33 @@ public class MainActivity extends AppCompatActivity
         resources = this.getResources();
         TextureUtils.init(resources);
         //创建引擎部分
-        player = new EntitySprite(999,500,TextureUtils.getTexture(R.drawable.player),50,50);
-        Texture img =TextureUtils.getTexture(R.drawable.background);
-        Texture img1 =TextureUtils.getTexture(R.drawable.test1);
-        m = new MapSprite(img,2160,1080,player,0,0);
+        DynamicTexture dynamicTexture = TextureUtils.getDynamicTexture(R.drawable.idle,4,4,15,100,true);
+        player = new EntitySprite(1000, 500, dynamicTexture, 50, 50);
+        Texture img = TextureUtils.getTexture(R.drawable.background);
+        m = new MapSprite(img, 2160, 1080, player, 2080, 1580);
+        MapUtils.changeMap(m);
+        QueueUtils.init(engine);
         player.setOnGround(false);
-        //MapSprite map = new MapSprite(m,engine.SCREEN_WIDTH,engine.SCREEN_HEIGHT,player,player.getXPoint(),player.getYPoint());
-        GroundSprite ground = new GroundSprite(img1,0,800,2160,300);
-        WallSprite ground1 = new WallSprite(img1,1500,700,300,100);
-        WallSprite ground2 = new WallSprite(img1,100,700,300,100);
-        WallSprite ground3 = new WallSprite(img1,1100,500,300,100);
+        GroundSprite ground = new GroundSprite(TextureUtils.getTexture(R.drawable.ground), 0, 1845, 3489, 313);
+        WallSprite ground1 = new WallSprite(TextureUtils.getTexture(R.drawable.wall1), 3489, 1715, 831, 445);
+        WallSprite ground2 = new WallSprite(TextureUtils.getTexture(R.drawable.wall2), 0, 1341, 1144, 231);
+        WallSprite ground3 = new WallSprite(TextureUtils.getTexture(R.drawable.wall3), 1576, 1043, 492, 187);
+        WallSprite ground4 = new WallSprite(TextureUtils.getTexture(R.drawable.wall3), 2242, 813, 492, 187);
+        WallSprite ground5 = new WallSprite(TextureUtils.getTexture(R.drawable.wall3), 2833, 1172, 492, 187);
         m.add(ground);
         m.add(ground1);
         m.add(ground2);
         m.add(ground3);
+        m.add(ground4);
+        m.add(ground5);
         engine.executableSpriteQueue.add(player);
+        engine.executableSpriteQueue.add(m);
         engine.physicsSpriteQueue.setMap(m);
         engine.renderSpriteQueue.add(m);
         engine.renderSpriteQueue.add(player);
-        engine.renderSpriteQueue.add(ground.getCollisionBox());
-        engine.renderSpriteQueue.add(ground1.getCollisionBox());
-        engine.renderSpriteQueue.add(ground2.getCollisionBox());
-        engine.renderSpriteQueue.add(ground3.getCollisionBox());
         engine.renderSpriteQueue.add(player.getCollisionBox());
         engine.physicsSpriteQueue.add(player);
-        //engine.renderSpriteQueue.add(m);
+        engine.physicsSpriteQueue.addMDI(m);
     }
 
     @Override

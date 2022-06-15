@@ -2,6 +2,7 @@ package demon.genmo3.engine.sprite;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.telephony.CellSignalStrength;
 import android.util.Log;
 
 import demon.genmo3.engine.control.Keys;
@@ -13,6 +14,8 @@ import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.component.Animations;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.sprite.component.StateMachine;
+import demon.genmo3.engine.utils.MapUtils;
+import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 
 /*
@@ -20,12 +23,13 @@ import demon.genmo3.engine.utils.TimerUtils;
  * */
 public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
 {
+    private boolean dynamic;
     private float xSpeed = 0;
     private float xAccelerate = 0;
     private float xRunAccelerate = 1000;
     //影响减速时的加速度。值越大，停止移动后速度就越快回到0
     private float brakePower = 3.0f;
-    private float xSpeedMax = 2000;
+    private float xSpeedMax = 1500;
     private float ySpeed = 0;
     private float yAccelerate = 0;
     private float ySpeedMax = 2000;
@@ -40,7 +44,11 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     {
         setX(x);
         setY(y);
-        this.texture = texture;
+        if (texture instanceof DynamicTexture)
+        {
+            dynamic = true;
+            this.texture1 = (DynamicTexture) texture;
+        } else this.texture = texture;
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
         this.stateMachine = new StateMachine(this);
     }
@@ -126,10 +134,6 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     @Override
     public boolean isOnGround()
     {
-//        boolean f = (stateMachine.getState().equals(StateType.JUMPING.getState())) && !stateMachine.isOnGround();
-//        Log.d("onground", String.valueOf(f));
-//        if ((stateMachine.getState().equals(StateType.JUMPING.getState())) && !stateMachine.isOnGround())
-//            return true;
         return stateMachine.isOnGround();
     }
 
@@ -144,8 +148,8 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     @Override
     public void move()
     {
-        setX(getX() + (xSpeed * TimerUtils.getDelta()));
-        setY(getY() + (ySpeed * TimerUtils.getDelta()));
+        if (MapUtils.canMoveX()) setX(getX() + (xSpeed * TimerUtils.getDelta()));
+        if (MapUtils.canMoveY()) setY(getY() + (ySpeed * TimerUtils.getDelta()));
         moveCollisionBox();
     }
 
@@ -168,12 +172,14 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     }
 
 
-
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {
-        canvas.drawBitmap(texture.getImg(false), getX(), getY(), p);
-        //canvas.drawBitmap(texture.getImg(stateMachine.getDirection()),getX(),getY(),p);
+        Log.i("pPoint", "(" + getX() + "," + getY() + ")");
+        if (dynamic)
+        {
+            canvas.drawBitmap(texture1.getImg(false), getX(), getY(), p);
+        } else canvas.drawBitmap(texture.getImg(false), getX(), getY(), p);
     }
 
     public float getXSpeed()
@@ -221,12 +227,12 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
 
     public float getXPoint()
     {
-        return getX() + (texture.getWidth() / 2f);
+        return getX() + (getImgWidth() / 2f);
     }
 
     public float getYPoint()
     {
-        return getY() + (texture.getHeight() / 2f);
+        return getY() + (getImgHeight() / 2f);
     }
 
     public float getWidth()
@@ -239,21 +245,38 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         return collisionBox.height;
     }
 
+    private float getImgWidth()
+    {
+        if (dynamic) return texture1.getWidth();
+        else return texture.getWidth();
+    }
+
+    private float getImgHeight()
+    {
+        if (dynamic) return texture1.getHeight();
+        else return texture.getHeight();
+    }
+
     public void setYOnGround(float y)
     {
-        super.setY(y - (0.5f * (this.getCollisionBox().height + this.texture.getHeight())));
+        super.setY(y - (0.5f * (this.getCollisionBox().height + getImgHeight())));
     }
 
     @Override
-    public void setXOnWall(float x,boolean left)
+    public void setXOnWall(float x, boolean left)
     {
-        if (left)setX(x - (0.5f * (this.getCollisionBox().width + this.texture.getWidth())));
-        else setX(x - (0.5f * (this.texture.getWidth() - this.getCollisionBox().width)));
+        if (left) setX(x - (0.5f * (this.getCollisionBox().width + getImgWidth())));
+        else setX(x - (0.5f * (getImgWidth() - this.getCollisionBox().width)));
     }
 
     @Override
     public CollisionBox getCollisionBox()
     {
         return collisionBox;
+    }
+
+    public boolean getDirection()
+    {
+        return this.stateMachine.getDirection();
     }
 }

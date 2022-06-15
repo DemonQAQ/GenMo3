@@ -26,11 +26,11 @@ public class RenderSpriteQueue
 
     public void add(Drawable e)
     {
-        RENDER_LIST.add(e);
+        if (!RENDER_LIST.contains(e)) RENDER_LIST.add(e);
     }
 
     public void remove(Drawable e)
     {
-        RENDER_LIST.remove(e);
+        if (RENDER_LIST.contains(e)) RENDER_LIST.remove(e);
     }
 }

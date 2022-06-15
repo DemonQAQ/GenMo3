@@ -24,6 +24,9 @@ public class DynamicTexture extends Texture
     private boolean flash;
     private boolean stop;
 
+    /*
+    * 资源id,x轴帧数,y轴帧数,总帧数,间隔时间,是否循环
+    * */
     public DynamicTexture(Bitmap img, int xFrame, int yFrame, int frame, long interval, boolean loop)
     {
         super(img);
@@ -88,5 +91,17 @@ public class DynamicTexture extends Texture
         changeImg(getIndex());
         if (left) return nowFrameL;
         return nowFrame;
+    }
+
+    @Override
+    public int getWidth()
+    {
+        return frameWidth;
+    }
+
+    @Override
+    public int getHeight()
+    {
+        return frameHeight;
     }
 }

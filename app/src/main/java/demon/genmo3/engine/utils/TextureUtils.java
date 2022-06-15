@@ -32,6 +32,9 @@ public class TextureUtils
         return new Texture(BitmapFactory.decodeResource(resources, id));
     }
 
+    /*
+    * 资源id,x轴帧数,y轴帧数,总帧数,间隔时间,是否循环
+    * */
     public static DynamicTexture getDynamicTexture(int id, int xFrame, int yFrame, int frame, long interval, boolean loop)
     {
         if (resources == null) return null;

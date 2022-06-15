@@ -41,7 +41,7 @@ public class WallSprite extends GroundSprite
         }
         if (this.getCollisionBox().checkBelowIntersect(e.getCollisionBox()))
         {
-            if (e.getCollisionBox().x + e.getCollisionBox().width > this.getCollisionBox().x + (0.1f * e.getCollisionBox().width) && e.getCollisionBox().x < this.getCollisionBox().x + this.getCollisionBox().width - (0.1f * e.getCollisionBox().width))
+            if (e.getCollisionBox().x + e.getCollisionBox().width > this.getCollisionBox().x + 50 && e.getCollisionBox().x < this.getCollisionBox().x + this.getCollisionBox().width - 50)
                 if (e instanceof EntitySprite)
                 {
                     EntitySprite sprite = (EntitySprite) e;
@@ -49,5 +49,4 @@ public class WallSprite extends GroundSprite
                 }
         }
     }
-
 }

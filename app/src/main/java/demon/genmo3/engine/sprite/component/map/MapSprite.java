@@ -5,10 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 import demon.genmo3.engine.core.GameEngine;
 import demon.genmo3.engine.core.PhysicsSpriteQueue;
+import demon.genmo3.engine.core.RenderSpriteQueue;
 import demon.genmo3.engine.physics.Gravity;
 import demon.genmo3.engine.physics.Movable;
 import demon.genmo3.engine.render.Drawable;
@@ -16,8 +18,11 @@ import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.Sprite;
+import demon.genmo3.engine.sprite.component.CollisionBox;
+import demon.genmo3.engine.utils.QueueUtils;
+import demon.genmo3.engine.utils.TimerUtils;
 
-public class MapSprite extends Sprite implements Drawable
+public class MapSprite extends Sprite implements Drawable, Movable
 {
     private int screenWidth;
     private int screenHeight;
@@ -32,54 +37,152 @@ public class MapSprite extends Sprite implements Drawable
     //玩家在地图里的坐标
     private float lX;
     private float lY;
+    private float preX;
+    private float preY;
+    private float xSpeed;
+    private float ySpeed;
     private static final ArrayList<Building> BUILDINGS = new ArrayList<>();
 
 
-    public MapSprite(Texture bg,int screenWidth,int screenHeight,EntitySprite sprite,float lX,float lY)
+    public MapSprite(Texture bg, int screenWidth, int screenHeight, EntitySprite sprite, float lX, float lY)
     {
         lockOnSprite = sprite;
-        this.lX = lX;
-        this.lY = lY;
+        updatePlayerPoint();
         dynamic = bg instanceof DynamicTexture;
         if (dynamic)
         {
             backgroundD = (DynamicTexture) bg;
             backgroundD.start();
-        }
-        else background = bg;
+        } else background = bg;
         mapWidth = bg.getWidth();
         mapHeight = bg.getHeight();
+
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.lX = lX;
+        this.lY = lY;
+        this.preX = lX;
+        this.preY = lY;
         lookOnSprite();
         getBackground();
     }
 
+    /*
+     * 判断地图碰撞的独立update
+     * 早于基于总线的update执行
+     * */
     public void onUpdate(Movable[] movables)
     {
-        for (Movable m:movables)
+        for (Movable m : movables)
         {
-            BUILDINGS.forEach(e->
+            BUILDINGS.forEach(e ->
             {
-                if (e.intersect(m))
+                if (e.getContain() & e.intersect(m))
                 {
                     intersect = true;
                     e.onIntersect(m);
                 }
             });
-            if (!intersect && m instanceof Gravity)
+            if (!intersect & m instanceof Gravity)
             {
                 Gravity gravity = (Gravity) m;
-                if (gravity.isOnGround())gravity.setOnGround(false);
+                if (gravity.isOnGround()) gravity.setOnGround(false);
             }
             intersect = false;
         }
     }
 
-    //todo 将玩家与所有地面实体做比较，如没有碰撞则代表进入浮空状态
-    public boolean inGround(EntitySprite e)
+    @Override
+    public void onUpdate()
     {
-        return false;
+        updatePlayerPoint();
+        updateRenderRange();
+        updateBuilding(getX(), getY());
+        checkContain();
+    }
+
+    //todo clear debug value
+    private void updatePlayerPoint()
+    {
+        this.preX = this.lX;
+        this.preY = this.lY;
+        this.lX = (getX() + lockOnSprite.getXPoint());
+        if (this.lX < 0) this.lX = 0;
+        if (this.lX > this.mapWidth) this.lX = this.mapWidth;
+        this.lY = (getY() + lockOnSprite.getYPoint());
+        if (this.lY < 0) this.lY = 0;
+        if (this.lY > this.mapHeight) this.lY = this.mapHeight;
+//        Log.i("now(lX,lY)", "(" + this.lX + "," + this.lY + ")");
+//        Log.i("now(preX,preY)", "(" + this.preX + "," + this.preY + ")");
+//        Log.i("map(X,Y)", "(" + getX() + "," + getY() + ")");
+//        Log.i("player(X,Y)", "(" + lockOnSprite.getXPoint() + "," + lockOnSprite.getYPoint() + ")");
+    }
+
+    private void updateRenderRange()
+    {
+        boolean xLeft = this.lX < (getX() + 0.2f * screenWidth);
+        boolean xRight = this.lX > (getX() + 0.8f * screenWidth);
+        if (xLeft || xRight)
+        {
+            if (xLeft && !lockOnSprite.getDirection() || xRight && lockOnSprite.getDirection())
+                this.xSpeed = 0;
+            else this.xSpeed = lockOnSprite.getXSpeed();
+        } else this.xSpeed = 0;
+
+        boolean yTop = this.lY < (getY() + 0.2f * screenHeight);
+        boolean yBottom = this.lY > (getY() + 0.8f * screenHeight);
+        if (yTop || yBottom)
+        {
+            if (yTop && lockOnSprite.getYSpeed() > 0) this.ySpeed = 0;
+            if (yBottom && lockOnSprite.getYSpeed() < 0) this.ySpeed = 0;
+            this.ySpeed = lockOnSprite.getYSpeed();
+        } else this.ySpeed = 0;
+    }
+
+    private void updateBuilding(float mX, float mY)
+    {
+        BUILDINGS.forEach(e ->
+        {
+            e.onUpdate(mX, mY);
+        });
+    }
+
+    private void checkContain()
+    {
+        RenderSpriteQueue renderSpriteQueue = QueueUtils.getRender();
+        BUILDINGS.forEach(e ->
+        {
+            if (e.getContain())
+            {
+                renderSpriteQueue.add(e);
+                renderSpriteQueue.add(e.getCollisionBox());
+            } else
+            {
+                renderSpriteQueue.remove(e);
+                renderSpriteQueue.remove(e.getCollisionBox());
+            }
+        });
+    }
+
+    private void lookOnSprite()
+    {
+        float x = 0;
+        if ((this.lX - (0.5f * screenWidth)) > 0 && this.lX - (0.5f * screenWidth) < mapWidth - screenWidth)
+            x = (this.lX - (0.5f * screenWidth));
+        else if (this.lX - (0.5f * screenWidth) >= mapWidth - screenWidth)
+            x = mapHeight - screenHeight;
+        else if ((this.lX - (0.5f * screenWidth)) <= 0)
+            x = 0;
+        setX(x);
+
+        float y = 0;
+        if ((this.lY - (0.5f * screenHeight)) > 0 && this.lY - (0.5f * screenHeight) < mapHeight - screenHeight)
+            y = (this.lY - (0.5f * screenHeight));
+        else if (this.lY - (0.5f * screenHeight) >= mapHeight - screenHeight)
+            y = mapHeight - screenHeight;
+        else if ((this.lY - (0.5f * screenHeight)) < 0)
+            y = 0;
+        setY(y);
     }
 
     //todo 清除debug变量
@@ -87,47 +190,17 @@ public class MapSprite extends Sprite implements Drawable
     public void onDraw(Canvas canvas, Paint p)
     {
         getBackground();
-        Bitmap bg = background.getImg(false);
-        int width = bg.getWidth();
-        int height = bg.getHeight();
-        canvas.drawBitmap(background.getImg(false),0,0,p);
+        canvas.drawBitmap(renderRange, 0, 0, p);
     }
 
-    private void lookOnSprite()
-    {
-        if (this.lX+(screenWidth / 2)>screenWidth)
-        {
-            setX(mapWidth-screenWidth);
-        }
-        else if(this.lX<(screenWidth/2))
-        {
-            setX(0);
-        }
-        else
-        {
-            setX(this.lX-(screenWidth/2f));
-        }
 
-        if (this.lY+(screenHeight/2)>screenHeight)
-        {
-            setY(screenHeight);
-        }
-        else if (this.lY<(screenHeight/2))
-        {
-            setY(0);
-        }
-        else
-        {
-            setY(this.lY-(screenHeight/2f));
-        };
-    }
     private void getBackground()
     {
         if (dynamic)
         {
-            renderRange = Bitmap.createBitmap(backgroundD.getImg(false),(int)getX(),(int)getY(),screenWidth,screenHeight);
-        }
-        else renderRange = background.getImg(false);
+            renderRange = Bitmap.createBitmap(backgroundD.getImg(false), (int) getX(), (int) getY(), screenWidth, screenHeight);
+        } else
+            renderRange = Bitmap.createBitmap(background.getImg(false), (int) getX(), (int) getY(), screenWidth, screenHeight);
     }
 
     public void add(Building building)
@@ -140,4 +213,112 @@ public class MapSprite extends Sprite implements Drawable
         BUILDINGS.remove(building);
     }
 
+    @Override
+    public void move()
+    {
+        moveRenderRange();
+        moveBuilding();
+    }
+
+    private void moveRenderRange()
+    {
+        float x = getX() + this.xSpeed * TimerUtils.getDelta();
+        if (x < 0) x = 0;
+        if (x > mapWidth - screenWidth) x = mapWidth - screenWidth;
+        float y = getY() + this.ySpeed * TimerUtils.getDelta();
+        if (y < 0) y = 0;
+        if (y > mapHeight - screenHeight) y = mapHeight - screenHeight;
+        setX(x);
+        setY(y);
+    }
+
+    private void moveBuilding()
+    {
+        BUILDINGS.forEach(Movable::move);
+    }
+
+    //todo clear debug
+    public boolean canMoveX()
+    {
+        boolean playerInArea = this.lX >= (getX() + 0.2f * screenWidth) & this.lX <= (getX() + 0.8f * screenWidth);
+        if (!playerInArea)
+        {
+            if (this.lX < (getX() + 0.2f * screenWidth) & !lockOnSprite.getDirection())
+                playerInArea = true;
+            else if (this.lX > (getX() + 0.8f * screenWidth) & lockOnSprite.getDirection())
+                playerInArea = true;
+        }
+        boolean mapInEdge = getX() <= 0 || getX() >= mapWidth - GameEngine.SCREEN_WIDTH;
+        if (mapInEdge)
+        {
+            if (getX() <= 0 & lockOnSprite.getXPoint() <= 0)
+            {
+                mapInEdge = false;
+            } else if (getX() >= mapWidth - GameEngine.SCREEN_WIDTH & lockOnSprite.getXPoint() >= mapWidth)
+            {
+                mapInEdge = false;
+            }
+        }
+        return playerInArea || mapInEdge;
+    }
+
+    public boolean canMoveY()
+    {
+        boolean playerInArea = this.lY >= (getY() + 0.1f * screenHeight) & this.lY <= (getY() + 0.9f * screenHeight);
+        if (!playerInArea)
+        {
+            //if (this.lockOnSprite.isOnGround()) playerInArea = true;
+            if (this.lY < (getY() + 0.1f * screenHeight) && this.lockOnSprite.getYSpeed() > 0)
+                playerInArea = true;
+            if (this.lY > (getY() + 0.9f * screenHeight) && this.lockOnSprite.getYSpeed() < 0)
+                playerInArea = true;
+        }
+        boolean mapInEdge = getY() == 0 || getY() == mapHeight;
+        if (mapInEdge)
+        {
+            if (getY() <= 0 & lockOnSprite.getYPoint() <= 0)
+            {
+                mapInEdge = false;
+            } else if (getY() >= mapWidth - GameEngine.SCREEN_HEIGHT & lockOnSprite.getYPoint() >= mapWidth)
+            {
+                mapInEdge = false;
+            }
+        }
+        Log.i("moveY", String.valueOf(playerInArea || mapInEdge));
+        return playerInArea || mapInEdge;
+    }
+
+    public float getMapWidth()
+    {
+        return this.mapWidth;
+    }
+
+    public float getMapHeight()
+    {
+        return this.mapHeight;
+    }
+
+    @Override
+    public boolean intersect(Movable e)
+    {
+        return false;
+    }
+
+    @Override
+    public void onIntersect(Movable e)
+    {
+
+    }
+
+    @Override
+    public void setXOnWall(float x, boolean left)
+    {
+
+    }
+
+    @Override
+    public CollisionBox getCollisionBox()
+    {
+        return null;
+    }
 }

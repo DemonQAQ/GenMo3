@@ -31,7 +31,7 @@ public class Idle extends State
         {
             stateMachine.setOnGround(false);
             stateMachine.setPreState(this.type);
-            stateMachine.getSprite().setYSpeed(-800);
+            stateMachine.getSprite().setYSpeed(-1000);
             return StateList.getState(StateType.JUMPING);
         }
         if (!stateMachine.isOnGround())
