@@ -17,7 +17,7 @@ public class AnimationsUtils
     public static void init()
     {
         PLAYER_IDLE = TextureUtils.getDynamicTexture(R.drawable.idle,4,1,4,100,true);
-        PLAYER_RUN = TextureUtils.getDynamicTexture(R.drawable.run,3,2,6,100,true);
+        PLAYER_RUN = TextureUtils.getDynamicTexture(R.drawable.run,6,1,6,100,true);
         PLAYER_JUMPING = TextureUtils.getDynamicTexture(R.drawable.jumping,4,1,4,100,true);
         PLAYER_FLOATING = TextureUtils.getDynamicTexture(R.drawable.floating,2,1,2,100,true);
 
@@ -27,9 +27,26 @@ public class AnimationsUtils
         IMG.put(AnimationsID.PLAYER_FLOATING,PLAYER_FLOATING);
     }
 
-    public DynamicTexture getAnimation(String key)
+    public static DynamicTexture getAnimation(String key)
     {
-        return IMG.get(AnimationsID.valueOf(key));
+        return IMG.get(findByStr(key));
+    }
+
+    private static AnimationsID findByStr(String key)
+    {
+        switch (key)
+        {
+            case "IDLE":
+                return AnimationsID.PLAYER_IDLE;
+            case "RUN":
+                return AnimationsID.PLAYER_RUN;
+            case "JUMPING":
+                return AnimationsID.PLAYER_JUMPING;
+            case "FLOATING":
+                return AnimationsID.PLAYER_FLOATING;
+            default:
+                return AnimationsID.PLAYER_IDLE;
+        }
     }
 
 }

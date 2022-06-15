@@ -48,6 +48,7 @@ public class Idle extends State
             stateMachine.setPreState(this.type);
             return StateList.getState(StateType.RUN);
         }
+        stateMachine.setPreState(this.type);
         return this;
     }
 }

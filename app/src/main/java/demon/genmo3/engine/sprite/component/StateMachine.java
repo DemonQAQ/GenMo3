@@ -1,5 +1,7 @@
 package demon.genmo3.engine.sprite.component;
 
+import android.util.Log;
+
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.component.state.State;
 import demon.genmo3.engine.sprite.component.state.StateList;
@@ -34,6 +36,7 @@ public class StateMachine
     public void update()
     {
         state_ = state_.tryTranslate(this);
+        translate = !preState.getState().equals(state_.getState());
     }
 
     public String getState()

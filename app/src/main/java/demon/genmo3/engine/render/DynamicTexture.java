@@ -1,9 +1,7 @@
 package demon.genmo3.engine.render;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
-import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 
 public class DynamicTexture extends Texture

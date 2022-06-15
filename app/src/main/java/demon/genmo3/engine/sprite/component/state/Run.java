@@ -37,7 +37,7 @@ public class Run extends State
             stateMachine.setPreState(this.type);
             return StateList.getState(StateType.IDLE);
         }
-
+        stateMachine.setPreState(this.type);
         return this;
     }
 }

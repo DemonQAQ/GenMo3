@@ -12,6 +12,7 @@ import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.sprite.component.StateMachine;
+import demon.genmo3.engine.utils.AnimationsUtils;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 
@@ -35,7 +36,6 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     private DynamicTexture texture1;
     private Texture texture;
 
-    //todo  暂时直接给texture
     public EntitySprite(float x, float y, Texture texture, float width, float height)
     {
         setX(x);
@@ -66,6 +66,8 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     private void stateEvent()
     {
         stateMachine.update();
+        boolean f  = stateMachine.isTranslate();
+        Log.i("changeState", String.valueOf(f));
         if (stateMachine.isTranslate())changeAnimation();
     }
 
@@ -73,11 +75,13 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     {
         if (dynamic)
         {
-            stateMachine.getState();
-        }
-        else
-        {
-
+            String str = stateMachine.getState();
+            DynamicTexture texture = AnimationsUtils.getAnimation(str);
+            if (texture != null)
+            {
+                texture1 = texture;
+                texture1.start();
+            }
         }
     }
 

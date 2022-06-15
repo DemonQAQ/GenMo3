@@ -11,7 +11,6 @@ import demon.genmo3.engine.render.Texture;
 
 public class TextureUtils
 {
-    private final static Matrix FLIP_MATRIX = new Matrix();
     private static Resources resources;
 
     public static void init(Resources resources)
@@ -21,8 +20,8 @@ public class TextureUtils
 
     public static Bitmap flip(Bitmap img)
     {
-        FLIP_MATRIX.postScale(-1f, 1f);
-        Bitmap IMG = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), FLIP_MATRIX, true);
+        Matrix FLIP_MATRIX = new Matrix();
+        FLIP_MATRIX.postScale(-1, 1);
         return Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), FLIP_MATRIX, true);
     }
 

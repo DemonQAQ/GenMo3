@@ -112,6 +112,8 @@ public class MapSprite extends Sprite implements Drawable, Movable
         this.lY = (getY() + lockOnSprite.getYPoint());
         if (this.lY < 0) this.lY = 0;
         if (this.lY > this.mapHeight) this.lY = this.mapHeight;
+        if (lockOnSprite.getXPoint() < 0 || lockOnSprite.getXPoint() > screenWidth || lockOnSprite.getYPoint() < 0 || lockOnSprite.getYPoint() > screenHeight)
+            lookOnSprite();
     }
 
     private void updateRenderRange()
@@ -151,11 +153,9 @@ public class MapSprite extends Sprite implements Drawable, Movable
             if (e.getContain())
             {
                 renderSpriteQueue.add(e);
-//                renderSpriteQueue.add(e.getCollisionBox());
             } else
             {
                 renderSpriteQueue.remove(e);
-//                renderSpriteQueue.remove(e.getCollisionBox());
             }
         });
     }
@@ -181,14 +181,12 @@ public class MapSprite extends Sprite implements Drawable, Movable
         setY(y);
     }
 
-    //todo 清除debug变量
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {
         getBackground();
         canvas.drawBitmap(renderRange, 0, 0, p);
     }
-
 
     private void getBackground()
     {
@@ -233,7 +231,6 @@ public class MapSprite extends Sprite implements Drawable, Movable
         BUILDINGS.forEach(Movable::move);
     }
 
-    //todo clear debug
     public boolean canMoveX()
     {
         boolean playerInArea = this.lX >= (getX() + 0.2f * screenWidth) & this.lX <= (getX() + 0.8f * screenWidth);
@@ -263,6 +260,7 @@ public class MapSprite extends Sprite implements Drawable, Movable
         boolean playerInArea = this.lY >= (getY() + 0.2f * screenHeight) & this.lY <= (getY() + 0.8f * screenHeight);
         if (!playerInArea)
         {
+            if (lockOnSprite.isOnGround()) playerInArea = true;
             if (this.lY < (getY() + 0.1f * screenHeight) && this.lockOnSprite.getYSpeed() > 0)
                 playerInArea = true;
             if (this.lY > (getY() + 0.9f * screenHeight) && this.lockOnSprite.getYSpeed() < 0)
@@ -279,7 +277,6 @@ public class MapSprite extends Sprite implements Drawable, Movable
                 mapInEdge = false;
             }
         }
-        Log.i("moveY", String.valueOf(playerInArea || mapInEdge));
         return playerInArea || mapInEdge;
     }
 
