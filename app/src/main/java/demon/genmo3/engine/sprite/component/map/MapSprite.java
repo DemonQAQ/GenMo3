@@ -260,7 +260,7 @@ public class MapSprite extends Sprite implements Drawable, Movable
 
     public boolean canMoveY()
     {
-        boolean playerInArea = this.lY >= (getY() + 0.1f * screenHeight) & this.lY <= (getY() + 0.9f * screenHeight);
+        boolean playerInArea = this.lY >= (getY() + 0.2f * screenHeight) & this.lY <= (getY() + 0.8f * screenHeight);
         if (!playerInArea)
         {
             if (this.lY < (getY() + 0.1f * screenHeight) && this.lockOnSprite.getYSpeed() > 0)

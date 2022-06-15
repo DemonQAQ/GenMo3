@@ -2,7 +2,6 @@ package demon.genmo3.engine.sprite;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.telephony.CellSignalStrength;
 import android.util.Log;
 
 import demon.genmo3.engine.control.Keys;
@@ -11,11 +10,9 @@ import demon.genmo3.engine.physics.Movable;
 import demon.genmo3.engine.render.Drawable;
 import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
-import demon.genmo3.engine.sprite.component.Animations;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.sprite.component.StateMachine;
 import demon.genmo3.engine.utils.MapUtils;
-import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 
 /*
@@ -26,16 +23,15 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     private boolean dynamic;
     private float xSpeed = 0;
     private float xAccelerate = 0;
-    private float xRunAccelerate = 1000;
+    private final float xRunAccelerate = 1000;
     //影响减速时的加速度。值越大，停止移动后速度就越快回到0
-    private float brakePower = 3.0f;
-    private float xSpeedMax = 1500;
+    private final float brakePower = 3.0f;
+    private final float xSpeedMax = 1500;
     private float ySpeed = 0;
     private float yAccelerate = 0;
-    private float ySpeedMax = 2000;
-    private CollisionBox collisionBox;
-    private Animations animations;
-    private StateMachine stateMachine;
+    private final float ySpeedMax = 2000;
+    private final CollisionBox collisionBox;
+    private final StateMachine stateMachine;
     private DynamicTexture texture1;
     private Texture texture;
 
@@ -70,11 +66,19 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     private void stateEvent()
     {
         stateMachine.update();
-//        if (stateMachine.isTranslate())
-//        {
-//            texture = animations.get(stateMachine.getState());
-//        }
+        if (stateMachine.isTranslate())changeAnimation();
+    }
 
+    private void changeAnimation()
+    {
+        if (dynamic)
+        {
+            stateMachine.getState();
+        }
+        else
+        {
+
+        }
     }
 
     private void speedEvent()
@@ -124,8 +128,6 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         if (!stateMachine.isOnGround())
         {
             ySpeed = ySpeed + yAccelerate * TimerUtils.getDelta();
-            Log.d("yA", String.valueOf(yAccelerate));
-            Log.d("ySpeed", String.valueOf(ySpeed));
             if (ySpeed < 0) ySpeed = Math.max(ySpeed, -ySpeedMax);
             if (ySpeed > 0) ySpeed = Math.min(ySpeed, ySpeedMax);
         }
@@ -175,11 +177,10 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {
-        Log.i("pPoint", "(" + getX() + "," + getY() + ")");
         if (dynamic)
         {
-            canvas.drawBitmap(texture1.getImg(false), getX(), getY(), p);
-        } else canvas.drawBitmap(texture.getImg(false), getX(), getY(), p);
+            canvas.drawBitmap(texture1.getImg(stateMachine.getDirection()), getX(), getY(), p);
+        } else canvas.drawBitmap(texture.getImg(stateMachine.getDirection()), getX(), getY(), p);
     }
 
     public float getXSpeed()

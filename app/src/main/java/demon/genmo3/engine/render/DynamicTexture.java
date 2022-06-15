@@ -10,15 +10,15 @@ public class DynamicTexture extends Texture
 {
     private Bitmap nowFrame;
     private Bitmap nowFrameL;
-    private int xFrame;
-    private int yFrame;
-    private int frame;
-    private int frameWidth;
-    private int frameHeight;
+    private final int xFrame;
+    private final int yFrame;
+    private final int frame;
+    private final int frameWidth;
+    private final int frameHeight;
     private int index = 0;
     private int indexCache = 0;
     private int y = 0;
-    private long interval;
+    private final long interval;
     private long startTime;
     private boolean loop;
     private boolean flash;
@@ -52,6 +52,7 @@ public class DynamicTexture extends Texture
         else this.flash = index != indexCache;
     }
 
+    //每次切换时都需要调用此函数，记录开始时间，用于计算当前帧数
     public void start()
     {
         this.startTime = TimerUtils.getTime();

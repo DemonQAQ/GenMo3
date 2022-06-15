@@ -19,6 +19,7 @@ import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.component.map.GroundSprite;
 import demon.genmo3.engine.sprite.component.map.MapSprite;
 import demon.genmo3.engine.sprite.component.map.WallSprite;
+import demon.genmo3.engine.utils.AnimationsUtils;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.QueueUtils;
 import demon.genmo3.engine.utils.TextureUtils;
@@ -95,9 +96,10 @@ public class MainActivity extends AppCompatActivity
     {
         resources = this.getResources();
         TextureUtils.init(resources);
+        AnimationsUtils.init();
         //创建引擎部分
-        DynamicTexture dynamicTexture = TextureUtils.getDynamicTexture(R.drawable.idle,4,4,15,100,true);
-        player = new EntitySprite(1000, 500, dynamicTexture, 50, 50);
+        DynamicTexture dynamicTexture = TextureUtils.getDynamicTexture(R.drawable.idle,4,1,4,100,true);
+        player = new EntitySprite(1000, 500, dynamicTexture, 200, 270);
         Texture img = TextureUtils.getTexture(R.drawable.background);
         ValueUtils.init(2160,1080);
         m = new MapSprite(img, 2160, 1080, player, 2080, 1580);
