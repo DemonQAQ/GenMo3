@@ -2,30 +2,31 @@ package demon.genmo3.engine.sprite.component.state;
 
 import android.util.Log;
 
+import demon.genmo3.engine.control.Keys;
 import demon.genmo3.engine.sprite.component.StateMachine;
 import demon.genmo3.engine.utils.TimerUtils;
+import demon.genmo3.engine.utils.ValueUtils;
 
-public class Jump extends State
+public class Attack3 extends State
 {
-    private float delta = 0;
+    private float delta;
 
-    public Jump()
+    public Attack3()
     {
-        this.type = StateType.JUMP;
-        this.level = 2;
+        this.type = StateType.ATTACK3;
+        this.level = 4;
     }
 
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
+        Log.d("state", this.type +","+delta);
         delta += TimerUtils.getDelta()*1000;
-        if (delta>=100)
+        if (delta >= ValueUtils.ATTACK3_TIME)
         {
             delta = 0;
-            stateMachine.getSprite().setYSpeed(-1600);
-            stateMachine.setOnGround(false);
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.JUMPING);
+            return StateList.getState(StateType.IDLE);
         }
         stateMachine.setPreState(this.type);
         return this;

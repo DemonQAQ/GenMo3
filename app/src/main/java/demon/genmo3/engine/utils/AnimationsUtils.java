@@ -26,8 +26,11 @@ public class AnimationsUtils
         PLAYER_JUMPING = TextureUtils.getDynamicTexture(R.drawable.jumping, 2, 1, 2, 50, true);
         PLAYER_FLOATING = TextureUtils.getDynamicTexture(R.drawable.floating, 2, 1, 2, 50, true);
         PLAYER_ATTACK1 = TextureUtils.getDynamicTexture(R.drawable.attack1, 5, 1, 5, 50, true);
+        ValueUtils.setAttack1Time(250);
         PLAYER_ATTACK2 = TextureUtils.getDynamicTexture(R.drawable.attack2, 3, 2, 6, 50, true);
-        PLAYER_ATTACK2 = TextureUtils.getDynamicTexture(R.drawable.attack3, 3, 2, 6, 50, true);
+        ValueUtils.setAttack2Time(300);
+        PLAYER_ATTACK3 = TextureUtils.getDynamicTexture(R.drawable.attack3, 3, 2, 6, 50, true);
+        ValueUtils.setAttack3Time(300);
 
         IMG.put(AnimationsID.PLAYER_IDLE, PLAYER_IDLE);
         IMG.put(AnimationsID.PLAYER_RUN, PLAYER_RUN);

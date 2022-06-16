@@ -63,11 +63,12 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         speedEvent();
     }
 
+    //todo clear
     private void stateEvent()
     {
         stateMachine.update();
         boolean f  = stateMachine.isTranslate();
-        Log.i("changeState", String.valueOf(f));
+        //Log.i("changeState", String.valueOf(f));
         if (stateMachine.isTranslate())changeAnimation();
     }
 

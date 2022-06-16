@@ -25,6 +25,11 @@ public class Run extends State
         {
             stateMachine.setDirection(false);
         }
+        if (Keys.ATTACK.use())
+        {
+            stateMachine.setPreState(this.type);
+            return StateList.getState(StateType.ATTACK1);
+        }
         if (Keys.JUMP.use())
         {
             stateMachine.setOnGround(false);
