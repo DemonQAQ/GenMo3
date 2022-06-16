@@ -181,6 +181,7 @@ public class MapSprite extends Sprite implements Drawable, Movable
         setY(y);
     }
 
+    //todo clear debug
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {
@@ -261,9 +262,9 @@ public class MapSprite extends Sprite implements Drawable, Movable
         if (!playerInArea)
         {
             if (lockOnSprite.isOnGround()) playerInArea = true;
-            if (this.lY < (getY() + 0.1f * screenHeight) && this.lockOnSprite.getYSpeed() > 0)
+            if (this.lY < (getY() + 0.2f * screenHeight) && this.lockOnSprite.getYSpeed() > 0)
                 playerInArea = true;
-            if (this.lY > (getY() + 0.9f * screenHeight) && this.lockOnSprite.getYSpeed() < 0)
+            if (this.lY > (getY() + 0.8f * screenHeight) && this.lockOnSprite.getYSpeed() < 0)
                 playerInArea = true;
         }
         boolean mapInEdge = getY() == 0 || getY() == mapHeight;
@@ -312,5 +313,15 @@ public class MapSprite extends Sprite implements Drawable, Movable
     public CollisionBox getCollisionBox()
     {
         return null;
+    }
+
+    public float getlX()
+    {
+        return lX - getX();
+    }
+
+    public float getlY()
+    {
+        return lY - getY();
     }
 }

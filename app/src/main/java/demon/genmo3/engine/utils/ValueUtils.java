@@ -10,4 +10,5 @@ public class ValueUtils
         SCREEN_WIDTH = screenWidth;
         SCREEN_HEIGHT = screenHeight;
     }
+
 }

@@ -29,7 +29,7 @@ public class Run extends State
         {
             stateMachine.setOnGround(false);
             stateMachine.setPreState(this.type);
-            stateMachine.getSprite().setYSpeed(-700);
+            stateMachine.getSprite().setYSpeed(-1600);
             return StateList.getState(StateType.JUMPING);
         }
         if (!Keys.LEFT.use()&&!Keys.RIGHT.use())

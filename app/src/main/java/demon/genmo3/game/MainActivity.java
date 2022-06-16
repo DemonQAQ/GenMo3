@@ -99,10 +99,10 @@ public class MainActivity extends AppCompatActivity
         AnimationsUtils.init();
         //创建引擎部分
         DynamicTexture dynamicTexture = TextureUtils.getDynamicTexture(R.drawable.idle,4,1,4,100,true);
-        player = new EntitySprite(1000, 500, dynamicTexture, 200, 270);
+        player = new EntitySprite(1000, 300, dynamicTexture, 160, 250);
         Texture img = TextureUtils.getTexture(R.drawable.background);
         ValueUtils.init(2160,1080);
-        m = new MapSprite(img, 2160, 1080, player, 2080, 1580);
+        m = new MapSprite(img, 2160, 1080, player, 2280, 1528);
         MapUtils.changeMap(m);
         QueueUtils.init(engine);
         player.setOnGround(false);

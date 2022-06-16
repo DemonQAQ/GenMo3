@@ -48,11 +48,11 @@ public class CollisionBox implements Drawable
 
     public boolean checkSideIntersect(CollisionBox e)
     {
-        if (e.y + 0.5f * e.height > this.y & e.y < this.y + this.height)
+        if (e.y + e.height - 20f < this.y || e.y + 20f > this.y + this.height)
         {
-            return e.x + e.width < this.x + 0.5f * e.width || e.x > this.x + this.width - 0.5f * e.width;
+            return false;
         }
-        return false;
+        return e.x + e.width < this.x + 0.5f * e.width || e.x > this.x + this.width - 0.5f * e.width;
     }
 
     public boolean checkBelowIntersect(CollisionBox e)

@@ -29,15 +29,13 @@ public class Idle extends State
         }
         if (Keys.JUMP.use() && stateMachine.isOnGround())
         {
-            stateMachine.setOnGround(false);
             stateMachine.setPreState(this.type);
-            stateMachine.getSprite().setYSpeed(-1500);
-            return StateList.getState(StateType.JUMPING);
+            return StateList.getState(StateType.JUMP);
         }
         if (!stateMachine.isOnGround())
         {
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.JUMPING);
+            return StateList.getState(StateType.FLOATING);
         }
         if (Keys.ITEM.use())
         {

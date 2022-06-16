@@ -22,4 +22,16 @@ public class MapUtils
         if(currentMap == null)return true;
         else return currentMap.canMoveY();
     }
+
+    public static float getX()
+    {
+        if (currentMap == null) return 0;
+        else return currentMap.getlX();
+    }
+
+    public static float getY()
+    {
+        if (currentMap == null)return 0;
+        else return currentMap.getlY();
+    }
 }

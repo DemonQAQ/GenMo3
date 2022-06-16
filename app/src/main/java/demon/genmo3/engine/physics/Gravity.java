@@ -5,7 +5,7 @@ package demon.genmo3.engine.physics;
 * */
 public interface Gravity
 {
-    float G = 1500;
+    float G = 2500;
     boolean isOnGround();
     void setOnGround(boolean flag);
     void setYSpeed(float value);

@@ -24,13 +24,13 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     private boolean dynamic;
     private float xSpeed = 0;
     private float xAccelerate = 0;
-    private final float xRunAccelerate = 1000;
+    private final float xRunAccelerate = 2000f;
     //影响减速时的加速度。值越大，停止移动后速度就越快回到0
-    private final float brakePower = 3.0f;
+    private final float brakePower = 4.0f;
     private final float xSpeedMax = 1500;
     private float ySpeed = 0;
     private float yAccelerate = 0;
-    private final float ySpeedMax = 2000;
+    private final float ySpeedMax = 3000;
     private final CollisionBox collisionBox;
     private final StateMachine stateMachine;
     private DynamicTexture texture1;
@@ -178,6 +178,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     }
 
 
+    //todo clear debug value
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {
@@ -185,6 +186,10 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         {
             canvas.drawBitmap(texture1.getImg(stateMachine.getDirection()), getX(), getY(), p);
         } else canvas.drawBitmap(texture.getImg(stateMachine.getDirection()), getX(), getY(), p);
+        Paint paint = new Paint();
+        paint.setARGB(255, 125, 255, 125);
+        float x = MapUtils.getX();
+        canvas.drawCircle(MapUtils.getX(),MapUtils.getY(),10,paint);
     }
 
     public float getXSpeed()

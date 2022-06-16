@@ -3,11 +3,14 @@ package demon.genmo3.engine.sprite.component.state;
 public enum StateType
 {
     IDLE("IDLE"),
+    JUMP("JUMP"),
     JUMPING("JUMPING"),
     FLOATING("FLOATING"),
     DEATH("DEATH"),
     RUN("RUN"),
-    ATTACK("ATTACK"),
+    ATTACK1("ATTACK"),
+    ATTACK2("ATTACK"),
+    ATTACK3("ATTACK"),
     ATTACKED("ATTACKED"),
     SKILL1("SKILL1"),
     SKILL2("SKILL2"),
