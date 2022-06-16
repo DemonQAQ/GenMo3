@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import demon.genmo3.engine.control.Keys;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
-import demon.genmo3.engine.sprite.component.StateMachine;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 

@@ -1,8 +1,6 @@
 package demon.genmo3.engine.sprite.component.state.local;
 
-import android.util.Log;
-
-import demon.genmo3.engine.sprite.component.StateMachine;
+import demon.genmo3.engine.sprite.component.state.StateMachine;
 import demon.genmo3.engine.sprite.component.state.State;
 import demon.genmo3.engine.sprite.component.state.StateList;
 import demon.genmo3.engine.sprite.component.state.StateType;

@@ -1,7 +1,5 @@
 package demon.genmo3.engine.sprite.component.state;
 
-import demon.genmo3.engine.sprite.component.StateMachine;
-
 public abstract class State
 {
     public StateType type;

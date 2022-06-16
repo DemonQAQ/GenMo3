@@ -1,4 +1,4 @@
-package demon.genmo3.engine.sprite.component;
+package demon.genmo3.engine.sprite.component.state;
 
 import android.util.Log;
 
@@ -17,6 +17,7 @@ public class StateMachine
     private State state_;
     //true代表左边，false代表右边
     private boolean direction;
+    private boolean numbness;
     private boolean onGround = true;
     private boolean translate = false;
 
@@ -104,5 +105,15 @@ public class StateMachine
     public boolean isTranslate()
     {
         return this.translate;
+    }
+
+    public boolean isNumbness()
+    {
+        return numbness;
+    }
+
+    public void setNumbness(boolean numbness)
+    {
+        this.numbness = numbness;
     }
 }

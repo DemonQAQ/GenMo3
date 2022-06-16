@@ -1,16 +1,14 @@
 package demon.genmo3.engine.core;
 
-import java.security.Key;
 import java.util.ArrayList;
 
-import demon.genmo3.engine.control.Keys;
 import demon.genmo3.engine.physics.Gravity;
 import demon.genmo3.engine.physics.Movable;
-import demon.genmo3.engine.sprite.EntitySprite;
-import demon.genmo3.engine.sprite.component.map.Building;
 import demon.genmo3.engine.sprite.component.map.MapSprite;
-import demon.genmo3.engine.utils.TimerUtils;
 
+/*
+* 物理管线，处理物理系统
+* */
 public class PhysicsSpriteQueue
 {
     private static final ArrayList<Gravity> GRAVITY_LIST = new ArrayList<>();

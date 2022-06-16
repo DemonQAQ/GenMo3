@@ -2,8 +2,9 @@ package demon.genmo3.engine.core;
 
 import java.util.ArrayList;
 
-import demon.genmo3.engine.physics.Gravity;
-
+/*
+* 负责执行所有实现了Executable接口并加入队列的对象的onUpdate()方法
+* */
 public class ExecutableSpriteQueue
 {
     private static final ArrayList<Executable> EXE_LIST = new ArrayList<>();

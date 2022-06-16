@@ -18,7 +18,13 @@ import java.util.concurrent.TimeUnit;
 import demon.genmo3.engine.utils.TimerUtils;
 
 /*
- * 游戏入口类
+ * 游戏引擎部分
+ * 执行顺序:
+ * 1.MapCheck() ··· 地图碰撞判定
+ * 2.onUpdate() ··· 处理游戏逻辑
+ * 3.onPhysics() ··· 处理物理系统
+ * 4.onCombat() ··· 处理战斗系统
+ * 5.onDraw() ··· 处理渲染任务
  * */
 public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Callback, Engine
 {
@@ -29,6 +35,7 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
     public RenderSpriteQueue renderSpriteQueue;
     public PhysicsSpriteQueue physicsSpriteQueue;
     public ExecutableSpriteQueue executableSpriteQueue;
+    public CombatSpriteQueue combatSpriteQueue;
 
     public GameEngine(Context context)
     {
@@ -95,6 +102,7 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
     public void physics()
     {
         this.physicsSpriteQueue.onPhysics();
+        this.combatSpriteQueue.onCombat();
     }
 
     @Override
@@ -107,6 +115,7 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
         this.renderSpriteQueue = new RenderSpriteQueue();
         this.physicsSpriteQueue = new PhysicsSpriteQueue();
         this.executableSpriteQueue = new ExecutableSpriteQueue();
+        this.combatSpriteQueue = new CombatSpriteQueue();
     }
 
     @Override

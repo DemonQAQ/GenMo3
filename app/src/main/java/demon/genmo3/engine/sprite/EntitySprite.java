@@ -2,19 +2,18 @@ package demon.genmo3.engine.sprite;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
-import demon.genmo3.engine.control.Keys;
 import demon.genmo3.engine.physics.Gravity;
 import demon.genmo3.engine.physics.Movable;
 import demon.genmo3.engine.render.Drawable;
 import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.component.CollisionBox;
-import demon.genmo3.engine.sprite.component.StateMachine;
+import demon.genmo3.engine.sprite.component.combat.Attributes;
+import demon.genmo3.engine.sprite.component.combat.Combat;
+import demon.genmo3.engine.sprite.component.combat.DamageArea;
+import demon.genmo3.engine.sprite.component.state.StateMachine;
 import demon.genmo3.engine.utils.AnimationsUtils;
-import demon.genmo3.engine.utils.MapUtils;
-import demon.genmo3.engine.utils.TimerUtils;
 
 /*
  * 玩家实体
@@ -28,7 +27,7 @@ import demon.genmo3.engine.utils.TimerUtils;
  * - StateMachine ··· 状态机，同一时刻只会处于一种状态，changeAnimation()方法会根据状态切换动画
  * - DynamicTexture ··· 动画实例，储存有当前的动画
  * */
-public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
+public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, Combat
 {
     private boolean dynamic;
     private float xSpeed = 0;
@@ -72,12 +71,14 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         speedEvent();
     }
 
+    //调用状态机
     private void stateEvent()
     {
         stateMachine.update();
         if (stateMachine.isTranslate())changeAnimation();
     }
 
+    //根据当前状态切换动画
     private void changeAnimation()
     {
         if (dynamic)
@@ -91,6 +92,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         }
     }
 
+    //此处处理速度事件，本地玩家通过监听按键改变速度，网络玩家通过事件通知改变速度
     public void speedEvent()
     {
     }
@@ -283,5 +285,41 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     public boolean getDirection()
     {
         return this.stateMachine.getDirection();
+    }
+
+    @Override
+    public Attributes getAttribute()
+    {
+        return null;
+    }
+
+    @Override
+    public boolean intersect(Combat e)
+    {
+        return false;
+    }
+
+    @Override
+    public void damage(Combat e)
+    {
+
+    }
+
+    @Override
+    public DamageArea getDamageArea()
+    {
+        return null;
+    }
+
+    @Override
+    public boolean isNumbness()
+    {
+        return this.stateMachine.isNumbness();
+    }
+
+    @Override
+    public void setNumbness(boolean flag)
+    {
+        this.stateMachine.setNumbness(flag);
     }
 }
