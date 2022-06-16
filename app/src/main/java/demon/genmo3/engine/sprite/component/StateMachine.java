@@ -20,11 +20,19 @@ public class StateMachine
     private boolean onGround = true;
     private boolean translate = false;
 
-    public StateMachine(EntitySprite sprite)
+    public StateMachine(EntitySprite sprite,boolean network)
     {
-        this.preState = StateType.IDLE;
+        if (network)
+        {
+            this.preState = StateType.IDLE;
+            this.state_ = StateList.getState(StateType.IDLE);
+        }
+        else
+        {
+
+        }
         this.sprite = sprite;
-        this.state_ = StateList.getState(StateType.IDLE);
+
     }
 
     //Sprite析构时解除对其的引用

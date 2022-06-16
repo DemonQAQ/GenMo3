@@ -32,7 +32,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     private float yAccelerate = 0;
     private final float ySpeedMax = 3000;
     private final CollisionBox collisionBox;
-    private final StateMachine stateMachine;
+    private StateMachine stateMachine;
     private DynamicTexture texture1;
     private Texture texture;
 
@@ -46,7 +46,6 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
             this.texture1 = (DynamicTexture) texture;
         } else this.texture = texture;
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
-        this.stateMachine = new StateMachine(this);
     }
 
     @Override
@@ -63,12 +62,9 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         speedEvent();
     }
 
-    //todo clear
     private void stateEvent()
     {
         stateMachine.update();
-        boolean f  = stateMachine.isTranslate();
-        //Log.i("changeState", String.valueOf(f));
         if (stateMachine.isTranslate())changeAnimation();
     }
 
@@ -76,8 +72,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     {
         if (dynamic)
         {
-            String str = stateMachine.getState();
-            DynamicTexture texture = AnimationsUtils.getAnimation(str);
+            DynamicTexture texture = AnimationsUtils.getAnimation(stateMachine.getState());
             if (texture != null)
             {
                 texture1 = texture;
@@ -86,56 +81,8 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         }
     }
 
-    private void speedEvent()
+    public void speedEvent()
     {
-        //松开按键
-        if (xSpeed != 0 && !Keys.LEFT.use() && !Keys.RIGHT.use())
-        {
-            if (stateMachine.getDirection())
-            {
-                xAccelerate = brakePower * xRunAccelerate;
-                if (xSpeed > 0)
-                {
-                    xSpeed = 0;
-                    xAccelerate = 0;
-                }
-            } else
-            {
-                xAccelerate = brakePower * -xRunAccelerate;
-                if (xSpeed < 0)
-                {
-                    xSpeed = 0;
-                    xAccelerate = 0;
-                }
-            }
-        }
-        //按下一侧方向键
-        if (Keys.LEFT.use() && !Keys.RIGHT.use() || !Keys.LEFT.use() && Keys.RIGHT.use())
-        {
-            if (Keys.LEFT.use())
-            {
-                if (xSpeed > 0)
-                {
-                    xSpeed = 0.5f * xSpeed;
-                } else xAccelerate = -xRunAccelerate;
-            } else
-            {
-                if (xSpeed < 0)
-                {
-                    xSpeed = 0.5f * xSpeed;
-                } else xAccelerate = xRunAccelerate;
-            }
-        }
-        if (stateMachine.getDirection())
-        {
-            xSpeed = Math.max((xSpeed + xAccelerate * TimerUtils.getDelta()), -xSpeedMax);
-        } else xSpeed = Math.min((xSpeed + xAccelerate * TimerUtils.getDelta()), xSpeedMax);
-        if (!stateMachine.isOnGround())
-        {
-            ySpeed = ySpeed + yAccelerate * TimerUtils.getDelta();
-            if (ySpeed < 0) ySpeed = Math.max(ySpeed, -ySpeedMax);
-            if (ySpeed > 0) ySpeed = Math.min(ySpeed, ySpeedMax);
-        }
     }
 
     @Override
@@ -155,8 +102,6 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     @Override
     public void move()
     {
-        if (MapUtils.canMoveX()) setX(getX() + (xSpeed * TimerUtils.getDelta()));
-        if (MapUtils.canMoveY()) setY(getY() + (ySpeed * TimerUtils.getDelta()));
         moveCollisionBox();
     }
 
@@ -178,8 +123,6 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
 
     }
 
-
-    //todo clear debug value
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {
@@ -187,10 +130,6 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
         {
             canvas.drawBitmap(texture1.getImg(stateMachine.getDirection()), getX(), getY(), p);
         } else canvas.drawBitmap(texture.getImg(stateMachine.getDirection()), getX(), getY(), p);
-        Paint paint = new Paint();
-        paint.setARGB(255, 125, 255, 125);
-        float x = MapUtils.getX();
-        canvas.drawCircle(MapUtils.getX(),MapUtils.getY(),10,paint);
     }
 
     public float getXSpeed()
@@ -254,6 +193,56 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     public float getHeight()
     {
         return collisionBox.height;
+    }
+
+    public float getxAccelerate()
+    {
+        return xAccelerate;
+    }
+
+    public void setxAccelerate(float xAccelerate)
+    {
+        this.xAccelerate = xAccelerate;
+    }
+
+    public float getxRunAccelerate()
+    {
+        return xRunAccelerate;
+    }
+
+    public float getBrakePower()
+    {
+        return brakePower;
+    }
+
+    public float getXSpeedMax()
+    {
+        return xSpeedMax;
+    }
+
+    public float getyAccelerate()
+    {
+        return yAccelerate;
+    }
+
+    public void setyAccelerate(float yAccelerate)
+    {
+        this.yAccelerate = yAccelerate;
+    }
+
+    public float getySpeedMax()
+    {
+        return ySpeedMax;
+    }
+
+    public StateMachine getStateMachine()
+    {
+        return stateMachine;
+    }
+
+    public void setStateMachine(StateMachine stateMachine)
+    {
+        this.stateMachine = stateMachine;
     }
 
     private float getImgWidth()

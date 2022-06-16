@@ -1,8 +1,11 @@
-package demon.genmo3.engine.sprite.component.state;
+package demon.genmo3.engine.sprite.component.state.local;
 
 import android.util.Log;
 
 import demon.genmo3.engine.sprite.component.StateMachine;
+import demon.genmo3.engine.sprite.component.state.State;
+import demon.genmo3.engine.sprite.component.state.StateList;
+import demon.genmo3.engine.sprite.component.state.StateType;
 import demon.genmo3.engine.utils.TimerUtils;
 
 public class Jump extends State

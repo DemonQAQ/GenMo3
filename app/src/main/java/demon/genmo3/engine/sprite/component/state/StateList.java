@@ -1,5 +1,14 @@
 package demon.genmo3.engine.sprite.component.state;
 
+import demon.genmo3.engine.sprite.component.state.local.Attack1;
+import demon.genmo3.engine.sprite.component.state.local.Attack2;
+import demon.genmo3.engine.sprite.component.state.local.Attack3;
+import demon.genmo3.engine.sprite.component.state.local.Floating;
+import demon.genmo3.engine.sprite.component.state.local.Idle;
+import demon.genmo3.engine.sprite.component.state.local.Jump;
+import demon.genmo3.engine.sprite.component.state.local.Jumping;
+import demon.genmo3.engine.sprite.component.state.local.Run;
+
 public class StateList
 {
     private static final Idle IDLE = new Idle();
