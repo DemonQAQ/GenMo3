@@ -17,7 +17,16 @@ import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 
 /*
- * 玩家实体的基本实现
+ * 玩家实体
+ * 主要方法列表:
+ * - onUpdate() ··· 此方法会在GameEngine类的实例执行update()时调用
+ * - move() ··· 此方法会在GameEngine类的实例执行physics()时候调用，且调用时间晚于重力系统调用
+ * - onDraw() ··· 此方法会在GameEngine类的实例执行主循环时最后调用，用于将图像绘制到画面上
+ *
+ * 主要功能类:
+ * - CollisionBox ··· 碰撞箱，代表玩家的体积。用于碰撞检测
+ * - StateMachine ··· 状态机，同一时刻只会处于一种状态，changeAnimation()方法会根据状态切换动画
+ * - DynamicTexture ··· 动画实例，储存有当前的动画
  * */
 public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
 {
@@ -32,11 +41,11 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     private float yAccelerate = 0;
     private final float ySpeedMax = 3000;
     private final CollisionBox collisionBox;
-    private StateMachine stateMachine;
+    private final StateMachine stateMachine;
     private DynamicTexture texture1;
     private Texture texture;
 
-    public EntitySprite(float x, float y, Texture texture, float width, float height)
+    public EntitySprite(float x, float y, Texture texture, float width, float height,boolean network)
     {
         setX(x);
         setY(y);
@@ -46,6 +55,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
             this.texture1 = (DynamicTexture) texture;
         } else this.texture = texture;
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
+        this.stateMachine = new StateMachine(this,network);
     }
 
     @Override
@@ -238,11 +248,6 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable
     public StateMachine getStateMachine()
     {
         return stateMachine;
-    }
-
-    public void setStateMachine(StateMachine stateMachine)
-    {
-        this.stateMachine = stateMachine;
     }
 
     private float getImgWidth()

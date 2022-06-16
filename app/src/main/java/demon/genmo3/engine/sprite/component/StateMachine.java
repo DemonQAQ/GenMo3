@@ -25,14 +25,14 @@ public class StateMachine
         if (network)
         {
             this.preState = StateType.IDLE;
-            this.state_ = StateList.getState(StateType.IDLE);
+            this.state_ = StateList.getState(StateType.IDLE,true);
         }
         else
         {
-
+            this.preState = StateType.IDLE;
+            this.state_ = StateList.getState(StateType.IDLE,false);
         }
         this.sprite = sprite;
-
     }
 
     //Sprite析构时解除对其的引用

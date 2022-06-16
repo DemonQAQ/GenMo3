@@ -14,8 +14,7 @@ public class LocalPlayer extends EntitySprite
 {
     public LocalPlayer(float x, float y, Texture texture, float width, float height)
     {
-        super(x, y, texture, width, height);
-        setStateMachine(new StateMachine(this));
+        super(x, y, texture, width, height,false);
     }
 
     @Override

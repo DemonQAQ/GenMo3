@@ -31,7 +31,7 @@ public class Floating extends State
         if (stateMachine.isOnGround())
         {
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.IDLE);
+            return StateList.getState(StateType.IDLE,false);
         }
         stateMachine.setPreState(this.type);
         return this;

@@ -7,6 +7,6 @@ public class NetPlayer extends EntitySprite
 {
     public NetPlayer(float x, float y, Texture texture, float width, float height)
     {
-        super(x, y, texture, width, height);
+        super(x, y, texture, width, height,true);
     }
 }
