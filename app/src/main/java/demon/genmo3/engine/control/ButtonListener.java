@@ -6,7 +6,7 @@ import android.view.View;
 
 public class ButtonListener implements View.OnTouchListener
 {
-    private int keyValue;
+    private final int keyValue;
 
     public ButtonListener(int keyValue)
     {
@@ -19,11 +19,13 @@ public class ButtonListener implements View.OnTouchListener
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN)
         {
             Log.d("down", String.valueOf(keyValue));
+            KeyEvent.findResById(view,keyValue,true);
             Keys.add(keyValue);
         }
         if (motionEvent.getAction() == MotionEvent.ACTION_UP)
         {
             Log.d("up", String.valueOf(keyValue));
+            KeyEvent.findResById(view,keyValue,false);
             Keys.remove(keyValue);
         }
         return false;

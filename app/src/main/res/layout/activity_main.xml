@@ -26,7 +26,7 @@
             android:layout_marginStart="576dp"
             android:layout_marginTop="200dp"
             android:layout_marginBottom="140dp"
-            app:srcCompat="?android:attr/textSelectHandleLeft" />
+            android:background="@drawable/item_null" />
 
         <ImageButton
             android:id="@+id/right"
@@ -35,7 +35,7 @@
             android:layout_marginStart="110dp"
             android:layout_marginTop="250dp"
             android:layout_marginBottom="49dp"
-            app:srcCompat="@android:drawable/ic_media_ff" />
+            android:background="@drawable/right_up" />
 
         <ImageButton
             android:id="@+id/skill1"
@@ -44,7 +44,7 @@
             android:layout_marginStart="402dp"
             android:layout_marginTop="280dp"
             android:layout_marginBottom="30dp"
-            app:srcCompat="?android:attr/textSelectHandleLeft" />
+            android:background="@drawable/item_null" />
 
         <ImageButton
             android:id="@+id/attack"
@@ -53,7 +53,7 @@
             android:layout_marginStart="470dp"
             android:layout_marginTop="250dp"
             android:layout_marginBottom="47dp"
-            app:srcCompat="@android:drawable/ic_lock_idle_charging" />
+            android:background="@drawable/attack_up" />
 
         <ImageButton
             android:id="@+id/left"
@@ -62,7 +62,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="250dp"
             android:layout_marginBottom="0dp"
-            app:srcCompat="@android:drawable/ic_media_rew" />
+            android:background="@drawable/left_up" />
 
         <ImageButton
             android:id="@+id/skill3"
@@ -71,7 +71,7 @@
             android:layout_marginStart="518dp"
             android:layout_marginTop="200dp"
             android:layout_marginBottom="140dp"
-            app:srcCompat="?android:attr/textSelectHandleLeft" />
+            android:background="@drawable/item_null" />
 
         <ImageButton
             android:id="@+id/item"
@@ -80,7 +80,7 @@
             android:layout_marginStart="402dp"
             android:layout_marginTop="220dp"
             android:layout_marginBottom="210dp"
-            app:srcCompat="?android:attr/textSelectHandleLeft" />
+            android:background="@drawable/item_null" />
 
         <ImageButton
             android:id="@+id/skill2"
@@ -89,7 +89,7 @@
             android:layout_marginStart="460dp"
             android:layout_marginTop="200dp"
             android:layout_marginBottom="139dp"
-            app:srcCompat="?android:attr/textSelectHandleLeft" />
+            android:background="@drawable/item_null" />
 
         <ImageButton
             android:id="@+id/jump"
@@ -98,7 +98,7 @@
             android:layout_marginStart="544dp"
             android:layout_marginTop="250dp"
             android:layout_marginBottom="46dp"
-            app:srcCompat="@android:drawable/arrow_up_float" />
+            android:background="@drawable/jump_up" />
     </FrameLayout>
 
 </RelativeLayout>
