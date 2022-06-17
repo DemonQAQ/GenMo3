@@ -8,7 +8,7 @@ public interface Combat
     //获取对象上的属性集合
     Attributes getAttribute();
     //判断是否相交
-    boolean intersect(Combat e);
+    boolean intersect(CollisionBox e);
     //相交时执行此方法，处理伤害逻辑
     void damage(Combat e);
     //获取伤害源的伤害区域

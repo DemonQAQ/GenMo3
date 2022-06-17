@@ -15,7 +15,7 @@ public class CombatSpriteQueue
         {
             for (Combat e_:combats)
             {
-                if (e.intersect(e_))e.damage(e_);
+                if (e.intersect(e_.getCollisionBox()))e.damage(e_);
             }
         });
     }

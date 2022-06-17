@@ -2,6 +2,7 @@ package demon.genmo3.engine.sprite;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import demon.genmo3.engine.physics.Gravity;
 import demon.genmo3.engine.physics.Movable;
@@ -14,6 +15,9 @@ import demon.genmo3.engine.sprite.component.combat.Combat;
 import demon.genmo3.engine.sprite.component.combat.DamageArea;
 import demon.genmo3.engine.sprite.component.state.StateMachine;
 import demon.genmo3.engine.utils.AnimationsUtils;
+import demon.genmo3.engine.utils.MapUtils;
+import demon.genmo3.engine.utils.TimerUtils;
+import demon.genmo3.engine.utils.ValueUtils;
 
 /*
  * 玩家实体
@@ -44,7 +48,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     private DynamicTexture texture1;
     private Texture texture;
 
-    public EntitySprite(float x, float y, Texture texture, float width, float height,boolean network)
+    public EntitySprite(float x, float y, Texture texture, float width, float height, boolean network)
     {
         setX(x);
         setY(y);
@@ -54,7 +58,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
             this.texture1 = (DynamicTexture) texture;
         } else this.texture = texture;
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
-        this.stateMachine = new StateMachine(this,network);
+        this.stateMachine = new StateMachine(this, network);
     }
 
     @Override
@@ -75,7 +79,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     private void stateEvent()
     {
         stateMachine.update();
-        if (stateMachine.isTranslate())changeAnimation();
+        if (stateMachine.isTranslate()) changeAnimation();
     }
 
     //根据当前状态切换动画
@@ -114,6 +118,14 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     @Override
     public void move()
     {
+        if (MapUtils.canMoveX()) setX(getX() + (getXSpeed() * TimerUtils.getDelta()));
+        if (getXPoint() < 0) setX(-(getImgWidth() * 0.5f));
+        if (getXPoint() > ValueUtils.SCREEN_WIDTH)
+            setX(ValueUtils.SCREEN_WIDTH - (getImgWidth() * 0.5f));
+        if (MapUtils.canMoveY()) setY(getY() + (getYSpeed() * TimerUtils.getDelta()));
+        if (getYPoint() < 0) setY(-(getImgHeight() * 0.5f));
+        if (getYPoint() > ValueUtils.SCREEN_HEIGHT) setY(ValueUtils.SCREEN_HEIGHT -(getImgHeight() * 0.5f));
+        Log.i("(x,y)", getXPoint() + "," + getYPoint());
         moveCollisionBox();
     }
 
@@ -189,12 +201,12 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
 
     public float getXPoint()
     {
-        return getX() + (getImgWidth() / 2f);
+        return getX() + (getImgWidth() * 0.5f);
     }
 
     public float getYPoint()
     {
-        return getY() + (getImgHeight() / 2f);
+        return getY() + (getImgHeight() * 0.5f);
     }
 
     public float getWidth()
@@ -294,7 +306,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     }
 
     @Override
-    public boolean intersect(Combat e)
+    public boolean intersect(CollisionBox e)
     {
         return false;
     }
