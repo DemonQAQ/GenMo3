@@ -13,6 +13,7 @@ import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.sprite.component.combat.Attributes;
 import demon.genmo3.engine.sprite.component.combat.Combat;
 import demon.genmo3.engine.sprite.component.combat.DamageArea;
+import demon.genmo3.engine.sprite.component.combat.Skill;
 import demon.genmo3.engine.sprite.component.state.StateMachine;
 import demon.genmo3.engine.utils.AnimationsUtils;
 import demon.genmo3.engine.utils.MapUtils;
@@ -20,17 +21,19 @@ import demon.genmo3.engine.utils.TimerUtils;
 import demon.genmo3.engine.utils.ValueUtils;
 
 /*
- * 玩家实体
+ * 描述:
+ * 一个游戏生物的实体抽象，涵盖了玩家或怪物的基本功能
  * 主要方法列表:
  * - onUpdate() ··· 此方法会在GameEngine类的实例执行update()时调用
  * - move() ··· 此方法会在GameEngine类的实例执行physics()时候调用，且调用时间晚于重力系统调用
  * - onDraw() ··· 此方法会在GameEngine类的实例执行主循环时最后调用，用于将图像绘制到画面上
  *
  * 主要功能类:
- * - CollisionBox ··· 碰撞箱，代表玩家的体积。用于碰撞检测
+ * - CollisionBox ··· 碰撞箱，代表实体的体积。用于碰撞检测
  * - StateMachine ··· 状态机，同一时刻只会处于一种状态，changeAnimation()方法会根据状态切换动画
  * - DynamicTexture ··· 动画实例，储存有当前的动画
  * */
+//todo 实装战斗系统
 public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, Combat
 {
     private boolean dynamic;
@@ -45,8 +48,13 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     private final float ySpeedMax = 3000;
     private final CollisionBox collisionBox;
     private final StateMachine stateMachine;
+    private final Attributes attributes;
     private DynamicTexture texture1;
     private Texture texture;
+    private Skill skill1;
+    private Skill skill2;
+    private Skill skill3;
+    private Skill skill4;
 
     public EntitySprite(float x, float y, Texture texture, float width, float height, boolean network)
     {
@@ -57,6 +65,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
             dynamic = true;
             this.texture1 = (DynamicTexture) texture;
         } else this.texture = texture;
+        this.attributes = new Attributes();
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
         this.stateMachine = new StateMachine(this, network);
     }
@@ -94,6 +103,11 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
                 texture1.start();
             }
         }
+    }
+
+    public void changeSkill()
+    {
+
     }
 
     //此处处理速度事件，本地玩家通过监听按键改变速度，网络玩家通过事件通知改变速度
@@ -333,5 +347,25 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     public void setNumbness(boolean flag)
     {
         this.stateMachine.setNumbness(flag);
+    }
+
+    public Skill getSkill1()
+    {
+        return skill1;
+    }
+
+    public Skill getSkill2()
+    {
+        return skill2;
+    }
+
+    public Skill getSkill3()
+    {
+        return skill3;
+    }
+
+    public Skill getSkill4()
+    {
+        return skill4;
     }
 }

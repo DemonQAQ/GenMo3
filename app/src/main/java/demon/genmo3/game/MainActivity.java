@@ -21,7 +21,7 @@ import demon.genmo3.engine.sprite.component.map.MapSprite;
 import demon.genmo3.engine.sprite.component.map.WallSprite;
 import demon.genmo3.engine.utils.AnimationsUtils;
 import demon.genmo3.engine.utils.MapUtils;
-import demon.genmo3.engine.utils.QueueUtils;
+import demon.genmo3.engine.utils.EngineUtils;
 import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.engine.utils.ValueUtils;
 import demon.genmo3.game.core.Engine;
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         ValueUtils.init(2160,1080);
         m = new MapSprite(img, 2160, 1080, player, 2280, 1528);
         MapUtils.changeMap(m);
-        QueueUtils.init(engine);
+        EngineUtils.init(engine);
         player.setOnGround(false);
         GroundSprite ground = new GroundSprite(TextureUtils.getTexture(R.drawable.ground), 0, 1845, 3489, 313);
         WallSprite ground1 = new WallSprite(TextureUtils.getTexture(R.drawable.wall1), 3489, 1715, 831, 445);

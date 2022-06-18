@@ -10,6 +10,9 @@ public class CombatSpriteQueue
 
     public void onCombat()
     {
+        //刷新技能的伤害区域和特效区域
+        COMBATS_LIST.forEach(Combat::move);
+        //伤害判定
         Combat[] combats = COMBATS_LIST.toArray(new Combat[0]);
         COMBATS_LIST.forEach(e->
         {

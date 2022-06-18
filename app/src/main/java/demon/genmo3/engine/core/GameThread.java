@@ -1,14 +1,12 @@
 package demon.genmo3.engine.core;
 
-import java.util.TimerTask;
-
 import demon.genmo3.engine.utils.TimerUtils;
 
 public class GameThread implements Runnable
 {
     private long current;
     private long delta;
-    private Engine g;
+    private final Engine g;
 
 
     public GameThread(Engine g)

@@ -19,5 +19,6 @@ public interface Combat
     boolean isNumbness();
 
     void setNumbness(boolean flag);
-
+    //移动伤害区域
+    void move();
 }

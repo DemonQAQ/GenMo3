@@ -18,6 +18,11 @@ public class TextureUtils
         TextureUtils.resources = resources;
     }
 
+    public static Resources getResources()
+    {
+        return resources;
+    }
+
     public static Bitmap flip(Bitmap img)
     {
         Matrix FLIP_MATRIX = new Matrix();

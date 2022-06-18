@@ -1,5 +1,6 @@
 package demon.genmo3.engine.utils;
 
+import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.component.map.MapSprite;
 
 public class MapUtils
@@ -21,6 +22,12 @@ public class MapUtils
     {
         if(currentMap == null)return true;
         else return currentMap.canMoveY();
+    }
+
+    public static EntitySprite getPlayer()
+    {
+        if (currentMap == null) return null;
+        else return currentMap.getLockOnSprite();
     }
 
     public static float getX()

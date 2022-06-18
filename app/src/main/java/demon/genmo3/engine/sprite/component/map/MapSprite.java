@@ -3,13 +3,9 @@ package demon.genmo3.engine.sprite.component.map;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
-import demon.genmo3.engine.core.GameEngine;
-import demon.genmo3.engine.core.PhysicsSpriteQueue;
 import demon.genmo3.engine.core.RenderSpriteQueue;
 import demon.genmo3.engine.physics.Gravity;
 import demon.genmo3.engine.physics.Movable;
@@ -19,7 +15,7 @@ import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.Sprite;
 import demon.genmo3.engine.sprite.component.CollisionBox;
-import demon.genmo3.engine.utils.QueueUtils;
+import demon.genmo3.engine.utils.EngineUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 import demon.genmo3.engine.utils.ValueUtils;
 
@@ -147,7 +143,7 @@ public class MapSprite extends Sprite implements Drawable, Movable
 
     private void checkContain()
     {
-        RenderSpriteQueue renderSpriteQueue = QueueUtils.getRender();
+        RenderSpriteQueue renderSpriteQueue = EngineUtils.getRender();
         BUILDINGS.forEach(e ->
         {
             if (e.getContain())
@@ -181,7 +177,6 @@ public class MapSprite extends Sprite implements Drawable, Movable
         setY(y);
     }
 
-    //todo clear debug
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {
@@ -323,5 +318,10 @@ public class MapSprite extends Sprite implements Drawable, Movable
     public float getlY()
     {
         return lY - getY();
+    }
+
+    public EntitySprite getLockOnSprite()
+    {
+        return this.lockOnSprite;
     }
 }

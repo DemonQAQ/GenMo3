@@ -1,11 +1,12 @@
 package demon.genmo3.engine.utils;
 
+import demon.genmo3.engine.core.CombatSpriteQueue;
 import demon.genmo3.engine.core.ExecutableSpriteQueue;
 import demon.genmo3.engine.core.GameEngine;
 import demon.genmo3.engine.core.PhysicsSpriteQueue;
 import demon.genmo3.engine.core.RenderSpriteQueue;
 
-public class QueueUtils
+public class EngineUtils
 {
     private static GameEngine engine;
 
@@ -27,5 +28,10 @@ public class QueueUtils
     public static RenderSpriteQueue getRender()
     {
         return engine.renderSpriteQueue;
+    }
+
+    public static CombatSpriteQueue getCombat()
+    {
+        return engine.combatSpriteQueue;
     }
 }
