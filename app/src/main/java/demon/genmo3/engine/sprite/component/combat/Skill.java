@@ -1,15 +1,11 @@
 package demon.genmo3.engine.sprite.component.combat;
 
-import androidx.core.content.res.ResourcesCompat;
-
 import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
-import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 
-//todo 技能图标
-public abstract class Skill
+public class Skill
 {
     public final int icon_up;
     public final int icon_down;
@@ -62,18 +58,27 @@ public abstract class Skill
     {
         if (canCast())
         {
+            float x1 = 0;
             castTime = 0;
             damageSource.getAttribute().setMp(damageSource.getAttribute().getMp() - mp);
             EffectTexture effect = new EffectTexture(dynamic ? effectTexture1 : effectTexture);
-            SkillEntity entity = new SkillEntity(new DamageArea(0, 0, this.width, this.height, damage, duration, times), effect, damageSource);
-            entity.start(x, y, xSpeed, ySpeed, xAccelerate, yAccelerate);
+            effect.init(damageSource.getDirection());
+            SkillEntity entity = new SkillEntity(new DamageArea(0, 0, this.width, this.height, damage, duration, times,damageSource), effect, damageSource);
+            if (damageSource.getDirection())x1 = x - damageSource.getCollisionBox().width;
+            else x1 = x + damageSource.getCollisionBox().width;
+            entity.start(x1, y, xSpeed, ySpeed, xAccelerate, yAccelerate);
         }
     }
 
     private boolean canCast()
     {
-        castTime += TimerUtils.getDelta() * 1000f;
-        boolean enoughCd = castTime > cd;
+        boolean enoughCd;
+        if (castTime == 0)enoughCd = true;
+        else
+        {
+            castTime += TimerUtils.getDelta() * 1000f;
+            enoughCd = castTime > cd;
+        }
         boolean enoughMp = damageSource.getAttribute().getMp() > this.mp;
         return enoughCd & enoughMp;
     }

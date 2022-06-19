@@ -25,8 +25,8 @@ public abstract class KeyEvent
 
     public static void findResById(View view, int keyValue, boolean down)
     {
-        if (keyValue >= 10005 && keyValue <= 10009) normalKey(view, keyValue, down);
-        else skillKey(view, keyValue, down);
+        if (keyValue >= 10005 && keyValue <= 10009) skillKey(view, keyValue, down);
+        else normalKey(view, keyValue, down);
     }
 
     private static void normalKey(View view, int keyValue, boolean down)
@@ -54,7 +54,6 @@ public abstract class KeyEvent
         }
     }
 
-    //todo 动态读取技能图标
     private static void skillKey(View view, int keyValue, boolean down)
     {
         EntitySprite player = MapUtils.getPlayer();
@@ -64,9 +63,12 @@ public abstract class KeyEvent
             case 10005:
                 if (player.getSkill1() != null)
                 {
+
                     if (down)
+                    {
+                        player.cast(1);
                         view.setBackgroundResource(player.getSkill1().icon_up > 0 ? player.getSkill1().icon_down : R.drawable.item_null);
-                    else
+                    } else
                         view.setBackgroundResource(player.getSkill1().icon_up > 0 ? player.getSkill1().icon_up : R.drawable.item_null);
                 } else view.setBackgroundResource(R.drawable.item_null);
                 break;
@@ -74,8 +76,10 @@ public abstract class KeyEvent
                 if (player.getSkill2() != null)
                 {
                     if (down)
+                    {
+                        player.cast(2);
                         view.setBackgroundResource(player.getSkill2().icon_up > 0 ? player.getSkill2().icon_down : R.drawable.item_null);
-                    else
+                    } else
                         view.setBackgroundResource(player.getSkill2().icon_up > 0 ? player.getSkill2().icon_up : R.drawable.item_null);
                 } else view.setBackgroundResource(R.drawable.item_null);
                 break;
@@ -83,8 +87,10 @@ public abstract class KeyEvent
                 if (player.getSkill3() != null)
                 {
                     if (down)
+                    {
+                        player.cast(3);
                         view.setBackgroundResource(player.getSkill3().icon_up > 0 ? player.getSkill3().icon_down : R.drawable.item_null);
-                    else
+                    } else
                         view.setBackgroundResource(player.getSkill3().icon_up > 0 ? player.getSkill3().icon_up : R.drawable.item_null);
                 } else view.setBackgroundResource(R.drawable.item_null);
                 break;
@@ -92,8 +98,10 @@ public abstract class KeyEvent
                 if (player.getSkill4() != null)
                 {
                     if (down)
+                    {
+                        player.cast(4);
                         view.setBackgroundResource(player.getSkill4().icon_up > 0 ? player.getSkill4().icon_down : R.drawable.item_null);
-                    else
+                    } else
                         view.setBackgroundResource(player.getSkill4().icon_up > 0 ? player.getSkill4().icon_up : R.drawable.item_null);
                 } else view.setBackgroundResource(R.drawable.item_null);
                 break;

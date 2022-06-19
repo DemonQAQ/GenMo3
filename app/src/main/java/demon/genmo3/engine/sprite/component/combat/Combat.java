@@ -21,4 +21,6 @@ public interface Combat
     void setNumbness(boolean flag);
     //移动伤害区域
     void move();
+
+    void checkEnd();
 }

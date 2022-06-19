@@ -65,7 +65,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
             dynamic = true;
             this.texture1 = (DynamicTexture) texture;
         } else this.texture = texture;
-        this.attributes = new Attributes();
+        this.attributes = new Attributes(500, 500, 10, 10, 10, 10, 10, 10);
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
         this.stateMachine = new StateMachine(this, network);
     }
@@ -105,6 +105,27 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
         }
     }
 
+    public void cast(int i)
+    {
+        switch (i)
+        {
+            case 1:
+                if (skill1 != null)
+                {
+                    if (getDirection()) skill1.cast(this.collisionBox.x, this.collisionBox.y);
+                    else
+                        skill1.cast(this.collisionBox.x, this.collisionBox.y);
+                }
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
     public void changeSkill()
     {
 
@@ -138,8 +159,8 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
             setX(ValueUtils.SCREEN_WIDTH - (getImgWidth() * 0.5f));
         if (MapUtils.canMoveY()) setY(getY() + (getYSpeed() * TimerUtils.getDelta()));
         if (getYPoint() < 0) setY(-(getImgHeight() * 0.5f));
-        if (getYPoint() > ValueUtils.SCREEN_HEIGHT) setY(ValueUtils.SCREEN_HEIGHT -(getImgHeight() * 0.5f));
-        Log.i("(x,y)", getXPoint() + "," + getYPoint());
+        if (getYPoint() > ValueUtils.SCREEN_HEIGHT)
+            setY(ValueUtils.SCREEN_HEIGHT - (getImgHeight() * 0.5f));
         moveCollisionBox();
     }
 
@@ -316,7 +337,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     @Override
     public Attributes getAttribute()
     {
-        return null;
+        return this.attributes;
     }
 
     @Override
@@ -349,6 +370,11 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
         this.stateMachine.setNumbness(flag);
     }
 
+    @Override
+    public void checkEnd()
+    {
+    }
+
     public Skill getSkill1()
     {
         return skill1;
@@ -367,5 +393,25 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     public Skill getSkill4()
     {
         return skill4;
+    }
+
+    public void setSkill1(Skill skill1)
+    {
+        this.skill1 = skill1;
+    }
+
+    public void setSkill2(Skill skill2)
+    {
+        this.skill2 = skill2;
+    }
+
+    public void setSkill3(Skill skill3)
+    {
+        this.skill3 = skill3;
+    }
+
+    public void setSkill4(Skill skill4)
+    {
+        this.skill4 = skill4;
     }
 }

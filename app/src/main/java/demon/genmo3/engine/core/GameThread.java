@@ -24,9 +24,6 @@ public class GameThread implements Runnable
         setDelta();
     }
 
-
-
-
     //执行所以的游戏逻辑
     private void update()
     {

@@ -9,12 +9,14 @@ import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 import demon.genmo3.engine.utils.ValueUtils;
+import demon.genmo3.game.skill.WaterSplash;
 
 public class LocalPlayer extends EntitySprite
 {
     public LocalPlayer(float x, float y, Texture texture, float width, float height)
     {
         super(x, y, texture, width, height, false);
+        setSkill1(WaterSplash.getSkill(this));
     }
 
     @Override
@@ -75,9 +77,5 @@ public class LocalPlayer extends EntitySprite
     public void onDraw(Canvas canvas, Paint p)
     {
         super.onDraw(canvas, p);
-        Paint paint = new Paint();
-        paint.setARGB(255, 125, 255, 125);
-        float x = MapUtils.getX();
-        canvas.drawLine(0, 0, 0, ValueUtils.SCREEN_HEIGHT, paint);
     }
 }

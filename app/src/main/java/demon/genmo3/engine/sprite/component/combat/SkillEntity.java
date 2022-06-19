@@ -1,5 +1,7 @@
 package demon.genmo3.engine.sprite.component.combat;
 
+import android.util.Log;
+
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.utils.EngineUtils;
@@ -28,28 +30,37 @@ public class SkillEntity implements Combat
 
     public void start(float x, float y, float xSpeed, float ySpeed, float xAccelerate, float yAccelerate)
     {
-        delta = 0;
+        this.x = x;
+        this.y = y;
+        this.delta = 0;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.xAccelerate = xAccelerate;
         this.yAccelerate = yAccelerate;
+        Log.i("玩家坐标", "(" + damageSource.getX() + "," + damageSource.getY() + ")");
         damageArea.move(x, y);
         effectTexture.move(x, y);
         effectTexture.init(damageSource.getDirection());
         EngineUtils.getCombat().add(this);
         EngineUtils.getRender().addEnd(this.effectTexture);
+        EngineUtils.getRender().addEnd(this.damageArea.area);
     }
 
+    //todo clear debug
     private void end()
     {
+        Log.i("skillInfo", "end");
         EngineUtils.getCombat().remove(this);
         EngineUtils.getRender().removeEnd(this.effectTexture);
+        EngineUtils.getRender().removeEnd(this.damageArea.area);
     }
 
-    private boolean checkEnd()
+    @Override
+    public void checkEnd()
     {
+        Log.i("castTime", String.valueOf(delta));
         delta += TimerUtils.getDelta() * 1000f;
-        return !(delta < damageArea.duration);
+        if (delta > damageArea.duration) end();
     }
 
     @Override
@@ -61,22 +72,17 @@ public class SkillEntity implements Combat
     @Override
     public void damage(Combat e)
     {
-        if (checkEnd()) end();
-        else
-        {
-            onDamage();
-        }
-    }
-
-    //制作技能时覆盖此方法实现技能逻辑
-    private void onDamage()
-    {
 
     }
 
     @Override
     public void move()
     {
+        if (xAccelerate>0&&damageSource.getDirection())xAccelerate = -xAccelerate;
+        xSpeed += xAccelerate * TimerUtils.getDelta();
+        ySpeed += yAccelerate * TimerUtils.getDelta();
+        x += xSpeed * TimerUtils.getDelta();
+        y += ySpeed * TimerUtils.getDelta();
         this.damageArea.move(this.x, this.y);
         this.effectTexture.move(this.x, this.y);
     }

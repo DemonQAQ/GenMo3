@@ -38,7 +38,7 @@
             android:background="@drawable/right_up" />
 
         <ImageButton
-            android:id="@+id/skill1"
+            android:id="@+id/item"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="402dp"
@@ -74,7 +74,7 @@
             android:background="@drawable/item_null" />
 
         <ImageButton
-            android:id="@+id/item"
+            android:id="@+id/skill1"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="402dp"
