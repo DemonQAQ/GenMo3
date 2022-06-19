@@ -21,18 +21,11 @@ public class StateMachine
     private boolean onGround = true;
     private boolean translate = false;
 
-    public StateMachine(EntitySprite sprite,boolean network)
+    //type: 0(本地玩家),1(网络玩家),2(怪物)
+    public StateMachine(EntitySprite sprite,int type)
     {
-        if (network)
-        {
-            this.preState = StateType.IDLE;
-            this.state_ = StateList.getState(StateType.IDLE,true);
-        }
-        else
-        {
-            this.preState = StateType.IDLE;
-            this.state_ = StateList.getState(StateType.IDLE,false);
-        }
+        this.preState = StateType.IDLE;
+        this.state_ = StateList.getState(StateType.IDLE,type);
         this.sprite = sprite;
     }
 

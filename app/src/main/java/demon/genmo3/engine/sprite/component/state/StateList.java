@@ -8,6 +8,11 @@ import demon.genmo3.engine.sprite.component.state.local.Idle;
 import demon.genmo3.engine.sprite.component.state.local.Jump;
 import demon.genmo3.engine.sprite.component.state.local.Jumping;
 import demon.genmo3.engine.sprite.component.state.local.Run;
+import demon.genmo3.engine.sprite.component.state.mob.Attack1Mob;
+import demon.genmo3.engine.sprite.component.state.mob.FloatingMob;
+import demon.genmo3.engine.sprite.component.state.mob.IdleMob;
+import demon.genmo3.engine.sprite.component.state.mob.JumpMob;
+import demon.genmo3.engine.sprite.component.state.mob.RunMob;
 import demon.genmo3.engine.sprite.component.state.network.Attack1Network;
 import demon.genmo3.engine.sprite.component.state.network.Attack2Network;
 import demon.genmo3.engine.sprite.component.state.network.Attack3Network;
@@ -28,46 +33,47 @@ public class StateList
     private static final Attack2 ATTACK2 = new Attack2();
     private static final Attack3 ATTACK3 = new Attack3();
 
-    private static final IdleNetwork IDLE_NETWORK = new IdleNetwork();
-    private static final RunNetwork RUN_NETWORK = new RunNetwork();
-    private static final JumpNetwork JUMP_NETWORK = new JumpNetwork();
-    private static final JumpingNetwork JUMPING_NETWORK = new JumpingNetwork();
-    private static final FloatingNetwork FLOATING_NETWORK = new FloatingNetwork();
-    private static final Attack1Network ATTACK1_NETWORK = new Attack1Network();
-    private static final Attack2Network ATTACK2_NETWORK = new Attack2Network();
-    private static final Attack3Network ATTACK3_NETWORK = new Attack3Network();
-
-    public static State getState(StateType type,boolean network)
+    //type: 0(本地玩家),1(网络玩家),2(怪物)
+    public static State getState(StateType state, int type)
     {
-        switch (type)
+        switch (state)
         {
             case IDLE:
-                if (network) return IDLE_NETWORK;
+                if (type == 2) return new IdleMob();
+                else if (type == 1) return new IdleNetwork();
                 else return IDLE;
             case RUN:
-                if (network) return RUN_NETWORK;
+                if (type == 2) return new RunMob();
+                else if (type == 1) return new RunNetwork();
                 else return RUN;
             case JUMP:
-                if (network) return JUMP_NETWORK;
+                if (type == 2) return new JumpMob();
+                else if (type == 1) return new JumpNetwork();
                 else return JUMP;
             case JUMPING:
-                if (network) return JUMPING_NETWORK;
+                if (type == 2) return new JumpMob();
+                else if (type == 1) return new JumpingNetwork();
                 else return JUMPING;
             case FLOATING:
-                if (network) return FLOATING_NETWORK;
+                if (type == 2) return new FloatingMob();
+                else if (type == 1) return new FloatingNetwork();
                 else return FLOATING;
             case ATTACK1:
-                if (network) return ATTACK1_NETWORK;
+                if (type == 2) return new Attack1Mob();
+                else if (type == 1) return new Attack1Network();
                 else return ATTACK1;
             case ATTACK2:
-                if (network) return ATTACK2_NETWORK;
+                if (type == 2) return new Attack1Mob();
+                else if (type == 1) return new Attack2Network();
                 else return ATTACK2;
             case ATTACK3:
-                if (network) return ATTACK3_NETWORK;
+                if (type == 2) return new Attack1Mob();
+                else if (type == 1) return new Attack3Network();
                 else return ATTACK3;
             default:
-                if (network) return IDLE_NETWORK;
-                return IDLE;
+                if (type == 2) return new IdleMob();
+                else if (type == 1) return new IdleNetwork();
+                else return IDLE;
         }
     }
 }

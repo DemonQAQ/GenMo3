@@ -15,7 +15,7 @@ public class LocalPlayer extends EntitySprite
 {
     public LocalPlayer(float x, float y, Texture texture, float width, float height)
     {
-        super(x, y, texture, width, height, false);
+        super(x, y, texture, width, height, 0);
         setSkill1(WaterSplash.getSkill(this));
     }
 
@@ -71,11 +71,5 @@ public class LocalPlayer extends EntitySprite
             if (getYSpeed() < 0) setYSpeed(Math.max(getYSpeed(), -getySpeedMax()));
             if (getYSpeed() > 0) setYSpeed(Math.min(getYSpeed(), getySpeedMax()));
         }
-    }
-
-    @Override
-    public void onDraw(Canvas canvas, Paint p)
-    {
-        super.onDraw(canvas, p);
     }
 }

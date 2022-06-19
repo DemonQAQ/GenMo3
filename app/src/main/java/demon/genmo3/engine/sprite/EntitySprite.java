@@ -56,7 +56,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     private Skill skill3;
     private Skill skill4;
 
-    public EntitySprite(float x, float y, Texture texture, float width, float height, boolean network)
+    public EntitySprite(float x, float y, Texture texture, float width, float height, int type)
     {
         setX(x);
         setY(y);
@@ -67,7 +67,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
         } else this.texture = texture;
         this.attributes = new Attributes(500, 500, 10, 10, 10, 10, 10, 10);
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
-        this.stateMachine = new StateMachine(this, network);
+        this.stateMachine = new StateMachine(this, type);
     }
 
     @Override
