@@ -23,10 +23,11 @@ public class DamageArea
         this.damageSource = sprite;
     }
 
+    //todo clear
     public void move(float x, float y)
     {
         this.area.x = x;
         this.area.y = y;
-        Log.i("伤害区域坐标", "(" + this.area.x + "," + this.area.y + ")");
+        //Log.i("伤害区域坐标", "(" + this.area.x + "," + this.area.y + ")");
     }
 }

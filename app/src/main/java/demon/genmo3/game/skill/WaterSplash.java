@@ -27,12 +27,12 @@ public abstract class WaterSplash
     public static void init()
     {
         mp = 50;
-        width = 640;
-        height = 800;
+        width = 264;
+        height = 308;
         damage = 100;
-        duration = 1000;
+        duration = 5000;
         times = 1;
-        xAccelerate = 500;
+        xAccelerate = 0;
         yAccelerate = 0;
         cd = 500;
         id_up = R.drawable.waterspalsh_up;

@@ -110,18 +110,16 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
         switch (i)
         {
             case 1:
-                if (skill1 != null)
-                {
-                    if (getDirection()) skill1.cast(this.collisionBox.x, this.collisionBox.y);
-                    else
-                        skill1.cast(this.collisionBox.x, this.collisionBox.y);
-                }
+                if (skill1 != null)skill1.cast();
                 break;
             case 2:
+                if (skill2 != null)skill2.cast();
                 break;
             case 3:
+                if (skill3 != null)skill3.cast();
                 break;
             case 4:
+                if (skill4 != null)skill4.cast();
                 break;
         }
     }

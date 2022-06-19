@@ -54,19 +54,16 @@ public class Skill
     }
 
     //执行技能时传入技能的初始坐标
-    public void cast(float x, float y)
+    public void cast()
     {
         if (canCast())
         {
-            float x1 = 0;
             castTime = 0;
             damageSource.getAttribute().setMp(damageSource.getAttribute().getMp() - mp);
             EffectTexture effect = new EffectTexture(dynamic ? effectTexture1 : effectTexture);
             effect.init(damageSource.getDirection());
             SkillEntity entity = new SkillEntity(new DamageArea(0, 0, this.width, this.height, damage, duration, times,damageSource), effect, damageSource);
-            if (damageSource.getDirection())x1 = x - damageSource.getCollisionBox().width;
-            else x1 = x + damageSource.getCollisionBox().width;
-            entity.start(x1, y, xSpeed, ySpeed, xAccelerate, yAccelerate);
+            entity.start(xSpeed, ySpeed, xAccelerate, yAccelerate);
         }
     }
 

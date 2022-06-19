@@ -5,12 +5,20 @@ import android.util.Log;
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.utils.EngineUtils;
+import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 
 public class SkillEntity implements Combat
 {
+    //渲染的坐标
     public float x;
     public float y;
+    //地图当前选取的坐标左上角
+    public float mx;
+    public float my;
+    //特效当前在地图内的坐标
+    public float lx;
+    public float ly;
     public float xSpeed;
     public float ySpeed;
     public float xAccelerate;
@@ -28,16 +36,23 @@ public class SkillEntity implements Combat
         this.damageSource = damageSource;
     }
 
-    public void start(float x, float y, float xSpeed, float ySpeed, float xAccelerate, float yAccelerate)
+    private void flashLocation()
     {
-        this.x = x;
-        this.y = y;
+        this.mx = MapUtils.getMX();
+        this.my = MapUtils.getMY();
+        this.x = damageSource.getCollisionBox().x;
+        this.y = damageSource.getCollisionBox().y;
+    }
+
+    public void start(float xSpeed, float ySpeed, float xAccelerate, float yAccelerate)
+    {
+        flashLocation();
         this.delta = 0;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.xAccelerate = xAccelerate;
         this.yAccelerate = yAccelerate;
-        Log.i("玩家坐标", "(" + damageSource.getX() + "," + damageSource.getY() + ")");
+        Log.i("玩家坐标", "(" + damageSource.getCollisionBox().x + "," + damageSource.getCollisionBox().y + ")");
         damageArea.move(x, y);
         effectTexture.move(x, y);
         effectTexture.init(damageSource.getDirection());
@@ -58,7 +73,7 @@ public class SkillEntity implements Combat
     @Override
     public void checkEnd()
     {
-        Log.i("castTime", String.valueOf(delta));
+        //Log.i("castTime", String.valueOf(delta));
         delta += TimerUtils.getDelta() * 1000f;
         if (delta > damageArea.duration) end();
     }
@@ -78,7 +93,19 @@ public class SkillEntity implements Combat
     @Override
     public void move()
     {
-        if (xAccelerate>0&&damageSource.getDirection())xAccelerate = -xAccelerate;
+        Log.i("delta", "(" + (MapUtils.getMX() - this.mx) + "," +(MapUtils.getMY() - this.my) + ")");
+        if (MapUtils.getMX() != this.mx)
+        {
+            x = x - (MapUtils.getMX() - this.mx);
+            this.mx = MapUtils.getMX();
+        }
+        if (MapUtils.getMY() != this.my)
+        {
+            y = y - (MapUtils.getMY() - this.my);
+            this.my = MapUtils.getMY();
+        }
+        Log.i("渲染坐标", "(" + this.x + "," + this.y + ")");
+        if (xAccelerate > 0 && damageSource.getDirection()) xAccelerate = -xAccelerate;
         xSpeed += xAccelerate * TimerUtils.getDelta();
         ySpeed += yAccelerate * TimerUtils.getDelta();
         x += xSpeed * TimerUtils.getDelta();
