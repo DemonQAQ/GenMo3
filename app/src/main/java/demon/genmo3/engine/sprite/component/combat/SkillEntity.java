@@ -2,11 +2,13 @@ package demon.genmo3.engine.sprite.component.combat;
 
 import android.util.Log;
 
+import demon.genmo3.engine.control.KeyEvent;
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.utils.EngineUtils;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
+import demon.genmo3.game.entity.MobEntity;
 
 public class SkillEntity implements Combat
 {
@@ -76,6 +78,18 @@ public class SkillEntity implements Combat
     }
 
     @Override
+    public boolean isDeath()
+    {
+        return false;
+    }
+
+    @Override
+    public void death()
+    {
+
+    }
+
+    @Override
     public boolean intersect(CollisionBox e)
     {
         return this.damageArea.area.checkIntersect(e);
@@ -84,7 +98,13 @@ public class SkillEntity implements Combat
     @Override
     public void damage(Combat e)
     {
-
+        if (e.isNumbness()||e.isDeath())return;
+        else
+        {
+            Attributes attributes = e.getAttribute();
+            attributes.setHp(attributes.getHp() - this.damageArea.damage);
+            if (e instanceof MobEntity)((MobEntity) e).setKeyValue(KeyEvent.HURT);
+        }
     }
 
     @Override

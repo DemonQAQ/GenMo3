@@ -29,7 +29,7 @@ public abstract class WaterSplash
         mp = 50;
         width = 264;
         height = 308;
-        damage = 100;
+        damage = 20;
         duration = 5000;
         times = 1;
         xAccelerate = 0;

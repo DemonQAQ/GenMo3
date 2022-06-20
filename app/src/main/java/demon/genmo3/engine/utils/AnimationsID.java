@@ -10,6 +10,7 @@ public enum AnimationsID
     PLAYER_ATTACK1("ATTACK1"),
     PLAYER_ATTACK2("ATTACK2"),
     PLAYER_ATTACK3("ATTACK3"),
+    PLAYER_HURT("HURT"),
     MOB_IDLE("MOB_IDLE"),
     MOB_RUN("MOB_RUN"),
     MOB_JUMP("MOB_JUMP"),
@@ -17,7 +18,8 @@ public enum AnimationsID
     MOB_FLOATING("MOB_FLOATING"),
     MOB_ATTACK1("MOB_ATTACK1"),
     MOB_ATTACK2("MOB_ATTACK2"),
-    MOB_ATTACK3("MOB_ATTACK3");
+    MOB_ATTACK3("MOB_ATTACK3"),
+    MOB_HURT("MOB_HURT");
 
     private final String ID;
 

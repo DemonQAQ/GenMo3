@@ -17,14 +17,16 @@ public class CombatSpriteQueue
         //刷新技能的伤害区域和特效区域
         COMBATS_LIST.forEach(Combat::move);
         //伤害判定
-//        Combat[] combats = COMBATS_LIST.toArray(new Combat[0]);
-//        COMBATS_LIST.forEach(e->
-//        {
-//            for (Combat e_:combats)
-//            {
-//                if (e_ != e.getDamageArea().damageSource && e.intersect(e_.getCollisionBox()))e.damage(e_);
-//            }
-//        });
+        Combat[] combats = COMBATS_LIST.toArray(new Combat[0]);
+        for (int i=0;i<combats.length;i++)
+        {
+            for (int j=0;j<combats.length;j++)
+            {
+                if (combats[i].intersect(combats[j].getCollisionBox()))combats[i].damage(combats[j]);
+            }
+        }
+        combat = COMBATS_LIST.toArray(new Combat[0]);
+        for (Combat value : combat) if (value.isDeath())value.death();
     }
 
     public void add(Combat e)
@@ -34,9 +36,7 @@ public class CombatSpriteQueue
 
     public void remove(Combat e)
     {
-        Log.i("remove", "开始移除");
         COMBATS_LIST.remove(e);
-        Log.i("remove", "移除完毕");
     }
 
 }

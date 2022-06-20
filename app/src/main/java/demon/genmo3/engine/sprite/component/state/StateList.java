@@ -9,7 +9,9 @@ import demon.genmo3.engine.sprite.component.state.local.Jump;
 import demon.genmo3.engine.sprite.component.state.local.Jumping;
 import demon.genmo3.engine.sprite.component.state.local.Run;
 import demon.genmo3.engine.sprite.component.state.mob.Attack1Mob;
+import demon.genmo3.engine.sprite.component.state.mob.DeathMob;
 import demon.genmo3.engine.sprite.component.state.mob.FloatingMob;
+import demon.genmo3.engine.sprite.component.state.mob.HurtMob;
 import demon.genmo3.engine.sprite.component.state.mob.IdleMob;
 import demon.genmo3.engine.sprite.component.state.mob.JumpMob;
 import demon.genmo3.engine.sprite.component.state.mob.RunMob;
@@ -69,6 +71,14 @@ public class StateList
                 else return ATTACK2;
             case ATTACK3:
                 if (type == 2) return new Attack1Mob();
+                else if (type == 1) return new Attack3Network();
+                else return ATTACK3;
+            case HURT:
+                if (type == 2) return new HurtMob();
+                else if (type == 1) return new Attack3Network();
+                else return ATTACK3;
+            case DEATH:
+                if (type == 2) return new DeathMob();
                 else if (type == 1) return new Attack3Network();
                 else return ATTACK3;
             default:

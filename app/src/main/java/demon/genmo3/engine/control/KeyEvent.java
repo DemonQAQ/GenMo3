@@ -12,6 +12,7 @@ import demon.genmo3.engine.utils.MapUtils;
  * */
 public abstract class KeyEvent
 {
+    public final static int NONE = 10000;
     public final static int LEFT = 10001;
     public final static int RIGHT = 10002;
     public final static int JUMP = 10003;
@@ -22,6 +23,7 @@ public abstract class KeyEvent
     public final static int SKILL4 = 10008;
     public final static int ITEM = 10009;
     public final static int INVENTORY = 10010;
+    public final static int HURT = 10010;
 
     public static void findResById(View view, int keyValue, boolean down)
     {

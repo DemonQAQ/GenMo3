@@ -17,6 +17,9 @@ public class AnimationsUtils
     private static DynamicTexture PLAYER_ATTACK3;
 
     private static DynamicTexture GOLEM_IDLE;
+    private static DynamicTexture GOLEM_RUN;
+    private static DynamicTexture GOLEM_ATTACK;
+    private static DynamicTexture GOLEM_HURT;
 
     private static final HashMap<AnimationsID, DynamicTexture> IMG = new HashMap<>();
     //每个怪物对应一个hashmap
@@ -55,8 +58,14 @@ public class AnimationsUtils
     private static void initMob()
     {
         GOLEM_IDLE = TextureUtils.getDynamicTexture(R.drawable.golemidle,3,3,9,100,true);
+        GOLEM_ATTACK = TextureUtils.getDynamicTexture(R.drawable.golemattack,4,5,19,100,true);
+        GOLEM_HURT = TextureUtils.getDynamicTexture(R.drawable.golemhurt,4,2,8,100,true);
+        GOLEM_RUN = TextureUtils.getDynamicTexture(R.drawable.golemrun,4,4,14,100,true);
 
         MOB_0.put(AnimationsID.MOB_IDLE,GOLEM_IDLE);
+        MOB_0.put(AnimationsID.MOB_ATTACK1,GOLEM_ATTACK);
+        MOB_0.put(AnimationsID.MOB_RUN,GOLEM_RUN);
+        MOB_0.put(AnimationsID.MOB_HURT,GOLEM_HURT);
     }
 
     public static DynamicTexture getAnimation(String key)
@@ -96,6 +105,8 @@ public class AnimationsUtils
                 return AnimationsID.MOB_ATTACK2;
             case "ATTACK3":
                 return AnimationsID.MOB_ATTACK3;
+            case "HURT":
+                return AnimationsID.MOB_HURT;
             default:
                 return AnimationsID.MOB_IDLE;
         }
@@ -121,6 +132,8 @@ public class AnimationsUtils
                 return AnimationsID.PLAYER_ATTACK2;
             case "ATTACK3":
                 return AnimationsID.PLAYER_ATTACK3;
+            case "HURT":
+                return AnimationsID.PLAYER_HURT;
             default:
                 return AnimationsID.PLAYER_IDLE;
         }

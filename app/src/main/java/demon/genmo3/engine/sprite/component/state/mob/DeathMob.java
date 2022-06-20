@@ -2,38 +2,33 @@ package demon.genmo3.engine.sprite.component.state.mob;
 
 import android.util.Log;
 
-import demon.genmo3.engine.control.KeyEvent;
 import demon.genmo3.engine.sprite.component.state.State;
 import demon.genmo3.engine.sprite.component.state.StateList;
 import demon.genmo3.engine.sprite.component.state.StateMachine;
 import demon.genmo3.engine.sprite.component.state.StateType;
+import demon.genmo3.engine.utils.EngineUtils;
+import demon.genmo3.engine.utils.TimerUtils;
 import demon.genmo3.game.entity.MobEntity;
 
-public class RunMob extends State
+public class DeathMob extends State
 {
-    public RunMob()
+    private float delta;
+
+    public DeathMob()
     {
-        this.type = StateType.RUN;
-        this.level = 0;
+        this.type = StateType.DEATH;
+        this.level = 5;
     }
 
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
         Log.d("Mobstate", String.valueOf(this.type));
-        MobEntity mob = (MobEntity) stateMachine.getSprite();
-        if (mob.getAttribute().getHp()<=0)
+        stateMachine.setDeath(true);
+        delta += TimerUtils.getDelta()*1000;
+        if (delta>=800)
         {
-            stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.DEATH,2);
-        }
-        if (mob.getKeyValue() == KeyEvent.HURT)
-        {
-            stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.HURT,2);
-        }
-        if (mob.getKeyValue() == KeyEvent.NONE)
-        {
+            delta = 0;
             stateMachine.setPreState(this.type);
             return StateList.getState(StateType.IDLE,2);
         }

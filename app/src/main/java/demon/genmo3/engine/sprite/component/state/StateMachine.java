@@ -20,6 +20,7 @@ public class StateMachine
     private boolean numbness;
     private boolean onGround = true;
     private boolean translate = false;
+    private boolean death;
 
     //type: 0(本地玩家),1(网络玩家),2(怪物)
     public StateMachine(EntitySprite sprite,int type)
@@ -108,5 +109,15 @@ public class StateMachine
     public void setNumbness(boolean numbness)
     {
         this.numbness = numbness;
+    }
+
+    public boolean isDeath()
+    {
+        return death;
+    }
+
+    public void setDeath(boolean death)
+    {
+        this.death = death;
     }
 }

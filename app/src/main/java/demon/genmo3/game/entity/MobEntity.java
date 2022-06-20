@@ -5,9 +5,12 @@ import android.util.Log;
 import java.util.Random;
 
 import demon.genmo3.R;
+import demon.genmo3.engine.control.KeyEvent;
+import demon.genmo3.engine.physics.Movable;
 import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
+import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.utils.AnimationsUtils;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
@@ -20,14 +23,15 @@ public class MobEntity extends EntitySprite
     public float mx;
     public float my;
     private float delta;
+    private int keyValue;
 
     public MobEntity(float x, float y, Texture texture, float width, float height)
     {
         super(x, y, texture, width, height, 2);
         this.range = 500;
+        this.keyValue = KeyEvent.NONE;
+        setxRunAccelerate(500);
         flashMapLocation();
-        Log.i("mobInit", getX()+","+getY());
-        Log.i("mobInit", this.mx+","+this.my);
     }
 
     @Override
@@ -35,7 +39,8 @@ public class MobEntity extends EntitySprite
     {
         super.onUpdate();
         flashMapLocation();
-        changeAnimation();
+        Log.i("mobHp", String.valueOf(getAttribute().getHp()));
+        Log.i("death", String.valueOf(isDeath()));
     }
 
     @Override
@@ -57,9 +62,15 @@ public class MobEntity extends EntitySprite
             setY(getY() - (MapUtils.getMY() - this.my));
             this.my = MapUtils.getMY();
         }
+        if (keyValue == KeyEvent.LEFT)setXAccelerate(getxAccelerate() - getxRunAccelerate() * TimerUtils.getDelta());
+        if (keyValue == KeyEvent.RIGHT)setXAccelerate(getxAccelerate() + getxRunAccelerate() * TimerUtils.getDelta());
+        if (keyValue == KeyEvent.NONE)
+        {
+            setXAccelerate(0);
+            setXSpeed(0);
+        }
         setXSpeed(getXSpeed() + getXAccelerate() * TimerUtils.getDelta());
         setYSpeed(getYSpeed() + getYAccelerate() * TimerUtils.getDelta());
-        Log.i("mobSpeed", getXSpeed()+","+getYSpeed());
         setX(getX() + getXSpeed() * TimerUtils.getDelta());
         setY(getY() + getYSpeed() * TimerUtils.getDelta());
         moveCollisionBox();
@@ -68,16 +79,36 @@ public class MobEntity extends EntitySprite
     public void ai()
     {
         delta += TimerUtils.getDelta() *1000;
-        if (delta > 3000)
+        if (delta > 500)
         {
             delta = 0;
             Random random = new Random();
-            int x = random.nextInt(2);
+            int x = random.nextInt(3);
             if (x == 1)
             {
-                getStateMachine().setDirection(!getStateMachine().getDirection());
+                keyValue = KeyEvent.LEFT;
+                getStateMachine().setDirection(true);
+            }
+            if (x == 2)
+            {
+                keyValue = KeyEvent.RIGHT;
+                getStateMachine().setDirection(false);
+            }
+            else
+            {
+                keyValue = KeyEvent.NONE;
             }
         }
+    }
+
+    public int getKeyValue()
+    {
+        return this.keyValue;
+    }
+
+    public void setKeyValue(int keyValue)
+    {
+        this.keyValue = keyValue;
     }
 
     private void flashMapLocation()
@@ -91,7 +122,18 @@ public class MobEntity extends EntitySprite
         this.target = target;
     }
 
+    @Override
+    public boolean intersect(Movable e)
+    {
+        return this.getCollisionBox().checkIntersect(e.getCollisionBox());
+    }
 
+    //todo 怪物碰撞
+    @Override
+    public void onIntersect(Movable e)
+    {
+
+    }
 
     @Override
     public void changeAnimation()

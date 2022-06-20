@@ -23,4 +23,8 @@ public interface Combat
     void move();
 
     void checkEnd();
+
+    boolean isDeath();
+
+    void death();
 }

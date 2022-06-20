@@ -16,6 +16,7 @@ import demon.genmo3.engine.sprite.component.combat.DamageArea;
 import demon.genmo3.engine.sprite.component.combat.Skill;
 import demon.genmo3.engine.sprite.component.state.StateMachine;
 import demon.genmo3.engine.utils.AnimationsUtils;
+import demon.genmo3.engine.utils.EngineUtils;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 import demon.genmo3.engine.utils.ValueUtils;
@@ -39,7 +40,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     private boolean dynamic;
     private float xSpeed = 0;
     private float xAccelerate = 0;
-    private final float xRunAccelerate = 2000f;
+    private float xRunAccelerate = 2000f;
     //影响减速时的加速度。值越大，停止移动后速度就越快回到0
     private final float brakePower = 4.0f;
     private final float xSpeedMax = 1500;
@@ -65,7 +66,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
             dynamic = true;
             this.texture1 = (DynamicTexture) texture;
         } else this.texture = texture;
-        this.attributes = new Attributes(500, 500, 10, 10, 10, 10, 10, 10);
+        this.attributes = new Attributes(50, 500, 10, 10, 10, 10, 10, 10);
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
         this.stateMachine = new StateMachine(this, type);
     }
@@ -276,6 +277,11 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
         return xRunAccelerate;
     }
 
+    public void  setxRunAccelerate(float x)
+    {
+        this.xRunAccelerate = x;
+    }
+
     public float getBrakePower()
     {
         return brakePower;
@@ -305,6 +311,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     {
         return stateMachine;
     }
+
 
     public boolean isDynamic()
     {
@@ -385,6 +392,21 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     @Override
     public void checkEnd()
     {
+    }
+
+    @Override
+    public boolean isDeath()
+    {
+        return stateMachine.isDeath();
+    }
+
+    @Override
+    public void death()
+    {
+        EngineUtils.getCombat().remove(this);
+        EngineUtils.getRender().remove(this);
+        EngineUtils.getPhysics().remove(this);
+        EngineUtils.getExecute().remove(this);
     }
 
     public Skill getSkill1()

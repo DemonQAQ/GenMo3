@@ -16,6 +16,7 @@ public enum StateType
     SKILL2("SKILL2"),
     SKILL3("SKILL3"),
     SKILL4("SKILL4"),
+    HURT("HURT"),
     ITEM("ITEM");
 
     private final String state;
