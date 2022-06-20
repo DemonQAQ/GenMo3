@@ -33,6 +33,7 @@ public class StateList
     private static final Attack2 ATTACK2 = new Attack2();
     private static final Attack3 ATTACK3 = new Attack3();
 
+    //todo 暂时使用玩家的idle给mob
     //type: 0(本地玩家),1(网络玩家),2(怪物)
     public static State getState(StateType state, int type)
     {

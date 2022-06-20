@@ -26,7 +26,7 @@ public class Jump extends State
             stateMachine.getSprite().setYSpeed(-1600);
             stateMachine.setOnGround(false);
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.JUMPING,false);
+            return StateList.getState(StateType.JUMPING,0);
         }
         stateMachine.setPreState(this.type);
         return this;

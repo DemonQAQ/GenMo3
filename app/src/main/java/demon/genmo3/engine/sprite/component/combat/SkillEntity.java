@@ -16,9 +16,6 @@ public class SkillEntity implements Combat
     //地图当前选取的坐标左上角
     public float mx;
     public float my;
-    //特效当前在地图内的坐标
-    public float lx;
-    public float ly;
     public float xSpeed;
     public float ySpeed;
     public float xAccelerate;
@@ -93,7 +90,6 @@ public class SkillEntity implements Combat
     @Override
     public void move()
     {
-        Log.i("delta", "(" + (MapUtils.getMX() - this.mx) + "," +(MapUtils.getMY() - this.my) + ")");
         if (MapUtils.getMX() != this.mx)
         {
             x = x - (MapUtils.getMX() - this.mx);
@@ -104,7 +100,6 @@ public class SkillEntity implements Combat
             y = y - (MapUtils.getMY() - this.my);
             this.my = MapUtils.getMY();
         }
-        Log.i("渲染坐标", "(" + this.x + "," + this.y + ")");
         if (xAccelerate > 0 && damageSource.getDirection()) xAccelerate = -xAccelerate;
         xSpeed += xAccelerate * TimerUtils.getDelta();
         ySpeed += yAccelerate * TimerUtils.getDelta();

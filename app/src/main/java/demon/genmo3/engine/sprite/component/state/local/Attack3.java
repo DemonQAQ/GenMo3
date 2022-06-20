@@ -28,7 +28,7 @@ public class Attack3 extends State
         {
             delta = 0;
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.IDLE,false);
+            return StateList.getState(StateType.IDLE,0);
         }
         stateMachine.setPreState(this.type);
         return this;

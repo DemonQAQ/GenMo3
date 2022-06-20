@@ -16,9 +16,19 @@ public class AnimationsUtils
     private static DynamicTexture PLAYER_ATTACK2;
     private static DynamicTexture PLAYER_ATTACK3;
 
+    private static DynamicTexture GOLEM_IDLE;
+
     private static final HashMap<AnimationsID, DynamicTexture> IMG = new HashMap<>();
+    //每个怪物对应一个hashmap
+    private static final HashMap<AnimationsID, DynamicTexture> MOB_0 = new HashMap<>();
 
     public static void init()
+    {
+        initPlayer();
+        initMob();
+    }
+
+    private static void initPlayer()
     {
         PLAYER_IDLE = TextureUtils.getDynamicTexture(R.drawable.idle, 4, 1, 4, 100, true);
         PLAYER_RUN = TextureUtils.getDynamicTexture(R.drawable.run, 6, 1, 6, 50, true);
@@ -42,9 +52,53 @@ public class AnimationsUtils
         IMG.put(AnimationsID.PLAYER_ATTACK3, PLAYER_ATTACK3);
     }
 
+    private static void initMob()
+    {
+        GOLEM_IDLE = TextureUtils.getDynamicTexture(R.drawable.golemidle,3,3,9,100,true);
+
+        MOB_0.put(AnimationsID.MOB_IDLE,GOLEM_IDLE);
+    }
+
     public static DynamicTexture getAnimation(String key)
     {
         return IMG.get(findByStr(key));
+    }
+
+    public static DynamicTexture getAnimationMob(String key,int mobID)
+    {
+        switch (mobID)
+        {
+            case 0:
+                return MOB_0.get(findByStrMob(key));
+            default:
+                return MOB_0.get(findByStrMob(key));
+        }
+
+    }
+
+    private static AnimationsID findByStrMob(String key)
+    {
+        switch (key)
+        {
+            case "IDLE":
+                return AnimationsID.MOB_IDLE;
+            case "RUN":
+                return AnimationsID.MOB_RUN;
+            case "JUMP":
+                return AnimationsID.MOB_JUMP;
+            case "JUMPING":
+                return AnimationsID.MOB_JUMPING;
+            case "FLOATING":
+                return AnimationsID.MOB_FLOATING;
+            case "ATTACK1":
+                return AnimationsID.MOB_ATTACK1;
+            case "ATTACK2":
+                return AnimationsID.MOB_ATTACK2;
+            case "ATTACK3":
+                return AnimationsID.MOB_ATTACK3;
+            default:
+                return AnimationsID.MOB_IDLE;
+        }
     }
 
     private static AnimationsID findByStr(String key)
@@ -67,7 +121,6 @@ public class AnimationsUtils
                 return AnimationsID.PLAYER_ATTACK2;
             case "ATTACK3":
                 return AnimationsID.PLAYER_ATTACK3;
-
             default:
                 return AnimationsID.PLAYER_IDLE;
         }

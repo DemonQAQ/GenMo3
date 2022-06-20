@@ -31,10 +31,10 @@ public class Attack1 extends State
             if (Keys.ATTACK.use())
             {
                 stateMachine.setPreState(this.type);
-                return StateList.getState(StateType.ATTACK2,false);
+                return StateList.getState(StateType.ATTACK2,0);
             }
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.IDLE,false);
+            return StateList.getState(StateType.IDLE,0);
         }
         stateMachine.setPreState(this.type);
         return this;

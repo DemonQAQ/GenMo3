@@ -31,19 +31,19 @@ public class Run extends State
         if (Keys.ATTACK.use())
         {
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.ATTACK1,false);
+            return StateList.getState(StateType.ATTACK1,0);
         }
         if (Keys.JUMP.use())
         {
             stateMachine.setOnGround(false);
             stateMachine.setPreState(this.type);
             stateMachine.getSprite().setYSpeed(-1600);
-            return StateList.getState(StateType.JUMPING,false);
+            return StateList.getState(StateType.JUMPING,0);
         }
         if (!Keys.LEFT.use()&&!Keys.RIGHT.use())
         {
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.IDLE,false);
+            return StateList.getState(StateType.IDLE,0);
         }
         stateMachine.setPreState(this.type);
         return this;

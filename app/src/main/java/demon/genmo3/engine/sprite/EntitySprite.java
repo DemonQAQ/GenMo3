@@ -45,7 +45,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     private final float xSpeedMax = 1500;
     private float ySpeed = 0;
     private float yAccelerate = 0;
-    private final float ySpeedMax = 3000;
+    private final float ySpeedMax = 3000f;
     private final CollisionBox collisionBox;
     private final StateMachine stateMachine;
     private final Attributes attributes;
@@ -92,7 +92,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     }
 
     //根据当前状态切换动画
-    private void changeAnimation()
+    public void changeAnimation()
     {
         if (dynamic)
         {
@@ -162,7 +162,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
         moveCollisionBox();
     }
 
-    private void moveCollisionBox()
+    public void moveCollisionBox()
     {
         collisionBox.x = getXPoint() - collisionBox.width / 2f;
         collisionBox.y = getYPoint() - collisionBox.height / 2f;
@@ -183,10 +183,19 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     @Override
     public void onDraw(Canvas canvas, Paint p)
     {
-        if (dynamic)
-        {
-            canvas.drawBitmap(texture1.getImg(stateMachine.getDirection()), getX(), getY(), p);
-        } else canvas.drawBitmap(texture.getImg(stateMachine.getDirection()), getX(), getY(), p);
+        canvas.drawBitmap(getTexture().getImg(stateMachine.getDirection()), getX(), getY(), p);
+    }
+
+    public Texture getTexture()
+    {
+        if (dynamic) return texture1;
+        else return texture;
+    }
+
+    public void setTexture(Texture texture)
+    {
+        if (dynamic) texture1 = (DynamicTexture) texture;
+        else this.texture = texture;
     }
 
     public float getXSpeed()
@@ -295,6 +304,11 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     public StateMachine getStateMachine()
     {
         return stateMachine;
+    }
+
+    public boolean isDynamic()
+    {
+        return dynamic;
     }
 
     private float getImgWidth()

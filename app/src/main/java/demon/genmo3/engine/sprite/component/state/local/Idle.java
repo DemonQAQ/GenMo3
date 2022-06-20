@@ -42,27 +42,27 @@ public class Idle extends State
                 isAttack1 = false;
                 delta = 0;
                 stateMachine.setPreState(StateType.ATTACK1);
-                return StateList.getState(StateType.ATTACK2,false);
+                return StateList.getState(StateType.ATTACK2,0);
             }
             else if (isAttack2)
             {
                 isAttack2 = false;
                 delta = 0;
                 stateMachine.setPreState(StateType.ATTACK2);
-                return StateList.getState(StateType.ATTACK3,false);
+                return StateList.getState(StateType.ATTACK3,0);
             }
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.ATTACK1,false);
+            return StateList.getState(StateType.ATTACK1,0);
         }
         if (Keys.JUMP.use() && stateMachine.isOnGround())
         {
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.JUMP,false);
+            return StateList.getState(StateType.JUMP,0);
         }
         if (!stateMachine.isOnGround())
         {
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.FLOATING,false);
+            return StateList.getState(StateType.FLOATING,0);
         }
         if (Keys.ITEM.use())
         {
@@ -71,7 +71,7 @@ public class Idle extends State
         if (Keys.LEFT.use() || Keys.RIGHT.use())
         {
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.RUN,false);
+            return StateList.getState(StateType.RUN,0);
         }
         stateMachine.setPreState(this.type);
         return this;

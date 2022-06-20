@@ -26,6 +26,7 @@ import demon.genmo3.engine.utils.TextureUtils;
 import demon.genmo3.engine.utils.ValueUtils;
 import demon.genmo3.game.core.Engine;
 import demon.genmo3.game.entity.LocalPlayer;
+import demon.genmo3.game.entity.MobEntity;
 import demon.genmo3.game.skill.WaterSplash;
 
 public class MainActivity extends AppCompatActivity
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity
         MapUtils.changeMap(m);
         EngineUtils.init(engine);
         player.setOnGround(false);
+        MobEntity mob = new MobEntity(1200,300,dynamicTexture,160,250);
         GroundSprite ground = new GroundSprite(TextureUtils.getTexture(R.drawable.ground), 0, 1845, 3489, 313);
         WallSprite ground1 = new WallSprite(TextureUtils.getTexture(R.drawable.wall1), 3489, 1715, 831, 445);
         WallSprite ground2 = new WallSprite(TextureUtils.getTexture(R.drawable.wall2), 0, 1341, 1144, 231);
@@ -122,11 +124,14 @@ public class MainActivity extends AppCompatActivity
         m.add(ground4);
         m.add(ground5);
         engine.executableSpriteQueue.add(player);
+        engine.executableSpriteQueue.add(mob);
         engine.executableSpriteQueue.add(m);
         engine.physicsSpriteQueue.setMap(m);
+        engine.physicsSpriteQueue.add(mob);
         engine.renderSpriteQueue.add(m);
+        engine.renderSpriteQueue.add(mob);
+        engine.renderSpriteQueue.add(mob.getCollisionBox());
         engine.renderSpriteQueue.add(player);
-//      engine.renderSpriteQueue.add(player.getCollisionBox());
         engine.physicsSpriteQueue.add(player);
         engine.physicsSpriteQueue.addMDI(m);
     }

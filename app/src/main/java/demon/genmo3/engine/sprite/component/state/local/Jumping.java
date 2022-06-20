@@ -29,7 +29,7 @@ public class Jumping extends State
         if (!stateMachine.isOnGround() && stateMachine.getSprite().getYSpeed() >= 0)
         {
             stateMachine.setPreState(this.type);
-            return StateList.getState(StateType.FLOATING,false);
+            return StateList.getState(StateType.FLOATING,0);
         }
         stateMachine.setPreState(this.type);
         return this;
