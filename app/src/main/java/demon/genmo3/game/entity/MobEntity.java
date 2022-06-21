@@ -62,8 +62,10 @@ public class MobEntity extends EntitySprite
             setY(getY() - (MapUtils.getMY() - this.my));
             this.my = MapUtils.getMY();
         }
-        if (keyValue == KeyEvent.LEFT)setXAccelerate(getxAccelerate() - getxRunAccelerate() * TimerUtils.getDelta());
-        if (keyValue == KeyEvent.RIGHT)setXAccelerate(getxAccelerate() + getxRunAccelerate() * TimerUtils.getDelta());
+        if (keyValue == KeyEvent.LEFT)
+            setXAccelerate(getxAccelerate() - getxRunAccelerate() * TimerUtils.getDelta());
+        if (keyValue == KeyEvent.RIGHT)
+            setXAccelerate(getxAccelerate() + getxRunAccelerate() * TimerUtils.getDelta());
         if (keyValue == KeyEvent.NONE)
         {
             setXAccelerate(0);
@@ -78,7 +80,7 @@ public class MobEntity extends EntitySprite
 
     public void ai()
     {
-        delta += TimerUtils.getDelta() *1000;
+        delta += TimerUtils.getDelta() * 1000;
         if (delta > 500)
         {
             delta = 0;
@@ -93,8 +95,7 @@ public class MobEntity extends EntitySprite
             {
                 keyValue = KeyEvent.RIGHT;
                 getStateMachine().setDirection(false);
-            }
-            else
+            } else
             {
                 keyValue = KeyEvent.NONE;
             }
@@ -132,7 +133,35 @@ public class MobEntity extends EntitySprite
     @Override
     public void onIntersect(Movable e)
     {
-
+        if (e instanceof LocalPlayer)
+        {
+            LocalPlayer player = (LocalPlayer) e;
+            if (this.getCollisionBox().checkSideIntersect(player.getCollisionBox()))
+            {
+                if (this.getCollisionBox().x + this.getCollisionBox().width * 0.5f > player.getCollisionBox().x)
+                {
+                    if (player.getXSpeed() >= 0)
+                    {
+                        player.setXSpeed(-50);
+                        player.setxAccelerate(-player.getxRunAccelerate() * 0.1f);
+                    }
+                } else
+                {
+                    if (player.getXSpeed() <= 0)
+                    {
+                        player.setXSpeed(50);
+                        player.setxAccelerate(player.getxRunAccelerate() * 0.1f);
+                    }
+                }
+            }
+            if (this.getCollisionBox().checkAboveIntersect(player.getCollisionBox()))
+            {
+                if (player.getXSpeed() >= 0)
+                {
+                    player.setYSpeed(-player.getYSpeed() * 0.5f);
+                }
+            }
+        }
     }
 
     @Override
@@ -140,7 +169,7 @@ public class MobEntity extends EntitySprite
     {
         if (isDynamic())
         {
-            DynamicTexture texture = AnimationsUtils.getAnimationMob(getStateMachine().getState(),0);
+            DynamicTexture texture = AnimationsUtils.getAnimationMob(getStateMachine().getState(), 0);
             if (texture != null)
             {
                 texture.start();

@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity
         engine.physicsSpriteQueue.add(mob);
         engine.renderSpriteQueue.add(m);
         engine.renderSpriteQueue.add(mob);
-        engine.renderSpriteQueue.add(mob.getCollisionBox());
         engine.renderSpriteQueue.add(player);
+        engine.renderSpriteQueue.add(player.getCollisionBox());
         engine.physicsSpriteQueue.add(player);
         engine.physicsSpriteQueue.addMDI(m);
     }

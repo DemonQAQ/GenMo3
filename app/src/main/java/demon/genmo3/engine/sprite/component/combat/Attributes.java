@@ -1,5 +1,13 @@
 package demon.genmo3.engine.sprite.component.combat;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
+import demon.genmo3.R;
+import demon.genmo3.engine.render.Texture;
+import demon.genmo3.engine.utils.TextureUtils;
+
 public class Attributes
 {
     private float hp;
@@ -12,6 +20,9 @@ public class Attributes
     private float critRate;
     private float hpRecover;
     private float mpRecover;
+    private Texture healthNull;
+    private Texture health;
+    private int width;
 
     public Attributes()
     {
@@ -25,6 +36,7 @@ public class Attributes
         setCritRate(1);
         setHpRecover(1);
         setMpRecover(1);
+        init();
     }
 
     public Attributes(float hp, float mp, float attack, float defence, float crit, float critRate, float hpRecover, float mpRecover)
@@ -39,6 +51,38 @@ public class Attributes
         setCritRate(critRate);
         setHpRecover(hpRecover);
         setMpRecover(mpRecover);
+        init();
+    }
+
+    private void init()
+    {
+        healthNull = TextureUtils.getTexture(R.drawable.healthnull);
+        health = TextureUtils.getTexture(R.drawable.health);
+        if (health != null) width = health.getWidth();
+    }
+
+    public void onDraw(Canvas canvas, Paint p,float x,float y)
+    {
+        canvas.drawBitmap(this.healthNull.getImg(false), x, y, p);
+        if (hp>0)
+        {
+            width = (int)(health.getWidth() * (hp/hpMax));
+            if (width>0)
+            {
+                Bitmap nowHealth = Bitmap.createBitmap(this.health.getImg(false), 0, 0, width, this.health.getHeight());
+                canvas.drawBitmap(nowHealth, x, y, p);
+            }
+        }
+    }
+
+    public float getHeight()
+    {
+        return this.healthNull.getHeight();
+    }
+
+    public float getWidth()
+    {
+        return this.healthNull.getWidth();
     }
 
     public float getHp()

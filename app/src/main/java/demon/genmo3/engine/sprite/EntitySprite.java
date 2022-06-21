@@ -111,16 +111,16 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
         switch (i)
         {
             case 1:
-                if (skill1 != null)skill1.cast();
+                if (skill1 != null) skill1.cast();
                 break;
             case 2:
-                if (skill2 != null)skill2.cast();
+                if (skill2 != null) skill2.cast();
                 break;
             case 3:
-                if (skill3 != null)skill3.cast();
+                if (skill3 != null) skill3.cast();
                 break;
             case 4:
-                if (skill4 != null)skill4.cast();
+                if (skill4 != null) skill4.cast();
                 break;
         }
     }
@@ -185,6 +185,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     public void onDraw(Canvas canvas, Paint p)
     {
         canvas.drawBitmap(getTexture().getImg(stateMachine.getDirection()), getX(), getY(), p);
+        attributes.onDraw(canvas, p, this.getXPoint() - attributes.getWidth() * 0.5f, this.getYPoint() - getImgHeight() * 0.5f - attributes.getHeight());
     }
 
     public Texture getTexture()
@@ -277,7 +278,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
         return xRunAccelerate;
     }
 
-    public void  setxRunAccelerate(float x)
+    public void setxRunAccelerate(float x)
     {
         this.xRunAccelerate = x;
     }
