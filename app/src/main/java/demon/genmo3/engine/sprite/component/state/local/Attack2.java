@@ -31,6 +31,7 @@ public class Attack2 extends State
             if (Keys.ATTACK.use())
             {
                 stateMachine.setPreState(this.type);
+                stateMachine.getSprite().cast(6);
                 return StateList.getState(StateType.ATTACK3,0);
             }
             stateMachine.setPreState(this.type);

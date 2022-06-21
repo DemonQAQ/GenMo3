@@ -10,6 +10,8 @@ public class Skill
     public final int icon_up;
     public final int icon_down;
     private final float mp;
+    private final float offsetX;
+    private final float offsetY;
     //DamageArea参数
     private final int width;
     private final int height;
@@ -32,7 +34,7 @@ public class Skill
     //伤害区域的初始化参数(碰撞箱(x,y,width,height),damage,duration,times),
     //特效的初始化参数(texture)
     //伤害源(sprite)
-    public Skill(float mp, int width, int height, float damage, float duration, int times, Texture texture, EntitySprite sprite, float xAccelerate, float yAccelerate, float cd,int id_up,int id_down)
+    public Skill(float offsetX, float offsetY, float mp, int width, int height, float damage, float duration, int times, Texture texture, EntitySprite sprite, float xAccelerate, float yAccelerate, float cd, int id_up, int id_down)
     {
         this.icon_up = id_up;
         this.icon_down = id_down;
@@ -42,14 +44,19 @@ public class Skill
         this.damage = damage;
         this.duration = duration;
         this.times = times;
-        if (texture instanceof DynamicTexture)
+        if (texture != null)
         {
-            dynamic = true;
-            effectTexture1 = (DynamicTexture) texture;
-        } else effectTexture = texture;
+            if (texture instanceof DynamicTexture)
+            {
+                dynamic = true;
+                effectTexture1 = (DynamicTexture) texture;
+            } else effectTexture = texture;
+        }
         this.damageSource = sprite;
         this.xAccelerate = xAccelerate;
         this.yAccelerate = yAccelerate;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
         this.cd = cd;
     }
 
@@ -60,17 +67,22 @@ public class Skill
         {
             castTime = 0;
             damageSource.getAttribute().setMp(damageSource.getAttribute().getMp() - mp);
-            EffectTexture effect = new EffectTexture(dynamic ? effectTexture1 : effectTexture);
-            effect.init(damageSource.getDirection());
-            SkillEntity entity = new SkillEntity(new DamageArea(0, 0, this.width, this.height, damage, duration, times,damageSource), effect, damageSource);
-            entity.start(xSpeed, ySpeed, xAccelerate, yAccelerate);
+            EffectTexture effect = null;
+            if (effectTexture == null && effectTexture1 == null) ;
+            else
+            {
+                effect = new EffectTexture(dynamic ? effectTexture1 : effectTexture);
+                effect.init(damageSource.getDirection());
+            }
+            SkillEntity entity = new SkillEntity(new DamageArea(0, 0, this.width, this.height, damage, duration, times, damageSource), effect, damageSource);
+            entity.start(offsetX, offsetY,xSpeed, ySpeed, xAccelerate, yAccelerate);
         }
     }
 
     private boolean canCast()
     {
         boolean enoughCd;
-        if (castTime == 0)enoughCd = true;
+        if (castTime == 0) enoughCd = true;
         else
         {
             castTime += TimerUtils.getDelta() * 1000f;

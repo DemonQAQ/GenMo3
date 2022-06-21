@@ -5,43 +5,31 @@ import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.sprite.component.combat.Skill;
+import demon.genmo3.engine.sprite.component.combat.SkillFactory;
 import demon.genmo3.engine.utils.TextureUtils;
 
 /*
  * 技能工厂类，返回具体的skill实例
  * */
-public abstract class WaterSplash
+public abstract class WaterSplash extends SkillFactory
 {
-    private static float mp;
-    private static int width;
-    private static int height;
-    private static float damage;
-    private static float duration;
-    private static int times;
-    private static float xAccelerate;
-    private static float yAccelerate;
-    private static float cd;
-    private static int id_up;
-    private static int id_down;
-
-    public static void init()
-    {
-        mp = 50;
-        width = 264;
-        height = 308;
-        damage = 20;
-        duration = 5000;
-        times = 1;
-        xAccelerate = 0;
-        yAccelerate = 0;
-        cd = 500;
-        id_up = R.drawable.waterspalsh_up;
-        id_down = R.drawable.waterspalsh_up;
-    }
+    public static float mp = 50;
+    public static int width = 264;
+    public static int height = 308;
+    public static float damage = 20;
+    public static float duration = 5000;
+    public static int times = 1;
+    public static float xAccelerate = 0;
+    public static float yAccelerate = 0;
+    public static float cd = 500;
+    public static int id_up = R.drawable.waterspalsh_up;
+    public static int id_down = R.drawable.waterspalsh_up;
+    public static float offsetX = 100;
+    public static float offsetY = 0;
 
     public static Skill getSkill(EntitySprite sprite)
     {
         DynamicTexture texture = TextureUtils.getDynamicTexture(R.drawable.watersplash, 5, 4, 20, 50, true);
-        return new Skill(mp, width, height, damage, duration, times, texture, sprite, xAccelerate, yAccelerate, cd, id_up, id_down);
+        return new Skill(offsetX, offsetY, mp, width, height, damage, duration, times, texture, sprite, xAccelerate, yAccelerate, cd, id_up, id_down);
     }
 }

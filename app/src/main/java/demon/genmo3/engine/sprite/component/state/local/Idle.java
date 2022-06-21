@@ -41,6 +41,7 @@ public class Idle extends State
             {
                 isAttack1 = false;
                 delta = 0;
+                stateMachine.getSprite().cast(5);
                 stateMachine.setPreState(StateType.ATTACK1);
                 return StateList.getState(StateType.ATTACK2,0);
             }
@@ -48,9 +49,11 @@ public class Idle extends State
             {
                 isAttack2 = false;
                 delta = 0;
+                stateMachine.getSprite().cast(6);
                 stateMachine.setPreState(StateType.ATTACK2);
                 return StateList.getState(StateType.ATTACK3,0);
             }
+            stateMachine.getSprite().cast(5);
             stateMachine.setPreState(this.type);
             return StateList.getState(StateType.ATTACK1,0);
         }

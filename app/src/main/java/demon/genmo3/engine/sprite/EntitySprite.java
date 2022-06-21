@@ -52,6 +52,8 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     private final Attributes attributes;
     private DynamicTexture texture1;
     private Texture texture;
+    private Skill attack;
+    private Skill thumpAttack;
     private Skill skill1;
     private Skill skill2;
     private Skill skill3;
@@ -121,6 +123,12 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
                 break;
             case 4:
                 if (skill4 != null) skill4.cast();
+                break;
+            case 5:
+                if (attack != null) attack.cast();
+                break;
+            case 6:
+                if (thumpAttack != null) thumpAttack.cast();
                 break;
         }
     }
@@ -448,5 +456,25 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
     public void setSkill4(Skill skill4)
     {
         this.skill4 = skill4;
+    }
+
+    public Skill getAttack()
+    {
+        return attack;
+    }
+
+    public void setAttack(Skill attack)
+    {
+        this.attack = attack;
+    }
+
+    public Skill getThumpAttack()
+    {
+        return thumpAttack;
+    }
+
+    public void setThumpAttack(Skill thumpAttack)
+    {
+        this.thumpAttack = thumpAttack;
     }
 }

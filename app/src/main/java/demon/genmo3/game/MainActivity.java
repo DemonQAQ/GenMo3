@@ -27,6 +27,7 @@ import demon.genmo3.engine.utils.ValueUtils;
 import demon.genmo3.game.core.Engine;
 import demon.genmo3.game.entity.LocalPlayer;
 import demon.genmo3.game.entity.MobEntity;
+import demon.genmo3.game.skill.Attack;
 import demon.genmo3.game.skill.WaterSplash;
 
 public class MainActivity extends AppCompatActivity
@@ -103,7 +104,6 @@ public class MainActivity extends AppCompatActivity
         //创建引擎部分
         DynamicTexture dynamicTexture = TextureUtils.getDynamicTexture(R.drawable.idle,4,1,4,100,true);
         DynamicTexture GOLEM_IDLE = TextureUtils.getDynamicTexture(R.drawable.golemidle,3,3,9,100,true);
-        WaterSplash.init();
         player = new LocalPlayer(1000, 300, dynamicTexture, 160, 250);
         Texture img = TextureUtils.getTexture(R.drawable.background);
         ValueUtils.init(2160,1080);

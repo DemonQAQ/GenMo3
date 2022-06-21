@@ -35,44 +35,54 @@ public class SkillEntity implements Combat
         this.damageSource = damageSource;
     }
 
-    private void flashLocation()
+    private void flashLocation(float ox, float oy)
     {
         this.mx = MapUtils.getMX();
         this.my = MapUtils.getMY();
-        this.x = damageSource.getCollisionBox().x;
+        this.x = damageSource.getCollisionBox().x + damageSource.getCollisionBox().width * 0.5f;
         this.y = damageSource.getCollisionBox().y;
+        if (damageSource.getDirection())
+        {
+            this.x = this.x - ox - damageSource.getCollisionBox().width * 0.5f - damageArea.area.width;
+        } else
+        {
+            this.x = this.x + ox + damageSource.getCollisionBox().width * 0.5f;
+        }
+        this.y -= oy;
     }
 
-    public void start(float xSpeed, float ySpeed, float xAccelerate, float yAccelerate)
+    public void start(float ox, float oy, float xSpeed, float ySpeed, float xAccelerate, float yAccelerate)
     {
-        flashLocation();
+        flashLocation(ox,oy);
         this.delta = 0;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.xAccelerate = xAccelerate;
         this.yAccelerate = yAccelerate;
-        Log.i("玩家坐标", "(" + damageSource.getCollisionBox().x + "," + damageSource.getCollisionBox().y + ")");
-        damageArea.move(x, y);
-        effectTexture.move(x, y);
-        effectTexture.init(damageSource.getDirection());
+        damageArea.move(this.x, this.y);
+        if (effectTexture != null)
+        {
+            effectTexture.move(this.x, this.y);
+            effectTexture.init(damageSource.getDirection());
+            EngineUtils.getRender().addEnd(this.effectTexture);
+        }
         EngineUtils.getCombat().add(this);
-        EngineUtils.getRender().addEnd(this.effectTexture);
         EngineUtils.getRender().addEnd(this.damageArea.area);
     }
 
     //todo clear debug
     private void end()
     {
-        Log.i("skillInfo", "end");
+        Log.i("end", "结束开始");
         EngineUtils.getCombat().remove(this);
-        EngineUtils.getRender().removeEnd(this.effectTexture);
+        if (effectTexture != null) EngineUtils.getRender().removeEnd(this.effectTexture);
         EngineUtils.getRender().removeEnd(this.damageArea.area);
+        Log.i("end", "结束完成");
     }
 
     @Override
     public void checkEnd()
     {
-        //Log.i("castTime", String.valueOf(delta));
         delta += TimerUtils.getDelta() * 1000f;
         if (delta > damageArea.duration) end();
     }
@@ -98,12 +108,12 @@ public class SkillEntity implements Combat
     @Override
     public void damage(Combat e)
     {
-        if (e == this || e == this.damageSource || e.isNumbness()||e.isDeath())return;
+        if (e == this || e == this.damageSource || e.isNumbness() || e.isDeath()) return;
         else
         {
             Attributes attributes = e.getAttribute();
             attributes.setHp(attributes.getHp() - this.damageArea.damage);
-            if (e instanceof MobEntity)((MobEntity) e).setKeyValue(KeyEvent.HURT);
+            if (e instanceof MobEntity) ((MobEntity) e).setKeyValue(KeyEvent.HURT);
         }
     }
 
@@ -126,7 +136,7 @@ public class SkillEntity implements Combat
         x += xSpeed * TimerUtils.getDelta();
         y += ySpeed * TimerUtils.getDelta();
         this.damageArea.move(this.x, this.y);
-        this.effectTexture.move(this.x, this.y);
+        if (effectTexture != null)this.effectTexture.move(this.x, this.y);
     }
 
     @Override

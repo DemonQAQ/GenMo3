@@ -9,6 +9,8 @@ import demon.genmo3.engine.sprite.EntitySprite;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
 import demon.genmo3.engine.utils.ValueUtils;
+import demon.genmo3.game.skill.Attack;
+import demon.genmo3.game.skill.ThumpAttack;
 import demon.genmo3.game.skill.WaterSplash;
 
 public class LocalPlayer extends EntitySprite
@@ -17,6 +19,8 @@ public class LocalPlayer extends EntitySprite
     {
         super(x, y, texture, width, height, 0);
         setSkill1(WaterSplash.getSkill(this));
+        setAttack(Attack.getSkill(this));
+        setThumpAttack(ThumpAttack.getSkill(this));
     }
 
     @Override
