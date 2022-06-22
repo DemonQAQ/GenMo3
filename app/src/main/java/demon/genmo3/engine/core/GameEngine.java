@@ -12,10 +12,13 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import demon.genmo3.engine.network.SocketThread;
 import demon.genmo3.engine.utils.TimerUtils;
 
 /*
@@ -31,6 +34,7 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
 {
     private SurfaceHolder holder;
     private GameThread mainThread;
+    private SocketThread netThread;
     private Canvas canvas;
     private Paint cleaner;
     public RenderSpriteQueue renderSpriteQueue;
@@ -71,9 +75,12 @@ public abstract class GameEngine extends SurfaceView implements SurfaceHolder.Ca
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder)
     {
         mainThread = new GameThread(this);
+//        netThread = new SocketThread();
         TimerUtils.start();
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
         executor.scheduleAtFixedRate(mainThread, 0, 16, TimeUnit.MILLISECONDS);
+//        executor.scheduleAtFixedRate(netThread, 0, 32, TimeUnit.MILLISECONDS);
+//        Log.i("连接成功", "1");
     }
 
     @Override

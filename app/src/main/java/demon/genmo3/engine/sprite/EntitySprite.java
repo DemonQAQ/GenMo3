@@ -37,6 +37,7 @@ import demon.genmo3.engine.utils.ValueUtils;
 //todo 实装战斗系统
 public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, Combat
 {
+    public String uuid;
     private boolean dynamic;
     private float xSpeed = 0;
     private float xAccelerate = 0;

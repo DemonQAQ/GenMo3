@@ -20,7 +20,7 @@ public class RunMob extends State
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
-        Log.d("Mobstate", String.valueOf(this.type));
+        //Log.d("Mobstate", String.valueOf(this.type));
         MobEntity mob = (MobEntity) stateMachine.getSprite();
         if (mob.getAttribute().getHp()<=0)
         {

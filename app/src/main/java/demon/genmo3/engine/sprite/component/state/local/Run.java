@@ -19,7 +19,7 @@ public class Run extends State
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
-        Log.d("state", String.valueOf(this.type));
+        //Log.d("state", String.valueOf(this.type));
         if (Keys.LEFT.use() && !Keys.RIGHT.use())
         {
             stateMachine.setDirection(true);

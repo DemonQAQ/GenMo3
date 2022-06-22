@@ -27,7 +27,7 @@ public class Floating extends State
         {
             stateMachine.setDirection(false);
         }
-        Log.d("state", String.valueOf(this.type));
+        //Log.d("state", String.valueOf(this.type));
         if (stateMachine.isOnGround())
         {
             stateMachine.setPreState(this.type);

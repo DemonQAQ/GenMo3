@@ -21,7 +21,7 @@ public class DeathMob extends State
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
-        Log.d("Mobstate", String.valueOf(this.type));
+        //Log.d("Mobstate", String.valueOf(this.type));
         stateMachine.setDeath(true);
         delta += TimerUtils.getDelta()*1000;
         if (delta>=800)

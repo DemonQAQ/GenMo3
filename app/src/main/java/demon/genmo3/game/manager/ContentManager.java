@@ -1,6 +1,7 @@
 package demon.genmo3.game.manager;
 
 import android.content.res.Resources;
+import android.util.Log;
 
 import demon.genmo3.R;
 import demon.genmo3.engine.render.DynamicTexture;

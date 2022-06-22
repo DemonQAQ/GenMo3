@@ -24,7 +24,7 @@ public class Idle extends State
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
-        Log.d("state", String.valueOf(this.type));
+        //Log.d("state", String.valueOf(this.type));
         attackCheck(stateMachine);
         //切换方向
         if (Keys.LEFT.use() && !Keys.RIGHT.use())
