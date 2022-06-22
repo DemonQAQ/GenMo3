@@ -68,7 +68,6 @@ public abstract class KeyEvent
 
                     if (down)
                     {
-                        player.cast(1);
                         view.setBackgroundResource(player.getSkill1().icon_up > 0 ? player.getSkill1().icon_down : R.drawable.item_null);
                     } else
                         view.setBackgroundResource(player.getSkill1().icon_up > 0 ? player.getSkill1().icon_up : R.drawable.item_null);
@@ -79,7 +78,6 @@ public abstract class KeyEvent
                 {
                     if (down)
                     {
-                        player.cast(2);
                         view.setBackgroundResource(player.getSkill2().icon_up > 0 ? player.getSkill2().icon_down : R.drawable.item_null);
                     } else
                         view.setBackgroundResource(player.getSkill2().icon_up > 0 ? player.getSkill2().icon_up : R.drawable.item_null);
@@ -90,7 +88,6 @@ public abstract class KeyEvent
                 {
                     if (down)
                     {
-                        player.cast(3);
                         view.setBackgroundResource(player.getSkill3().icon_up > 0 ? player.getSkill3().icon_down : R.drawable.item_null);
                     } else
                         view.setBackgroundResource(player.getSkill3().icon_up > 0 ? player.getSkill3().icon_up : R.drawable.item_null);
@@ -101,7 +98,6 @@ public abstract class KeyEvent
                 {
                     if (down)
                     {
-                        player.cast(4);
                         view.setBackgroundResource(player.getSkill4().icon_up > 0 ? player.getSkill4().icon_down : R.drawable.item_null);
                     } else
                         view.setBackgroundResource(player.getSkill4().icon_up > 0 ? player.getSkill4().icon_up : R.drawable.item_null);

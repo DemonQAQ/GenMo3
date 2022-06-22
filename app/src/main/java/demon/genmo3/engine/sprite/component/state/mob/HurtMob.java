@@ -23,7 +23,6 @@ public class HurtMob extends State
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
-        Log.d("Mobstate", String.valueOf(this.type));
         MobEntity mob = (MobEntity) stateMachine.getSprite();
         mob.setNumbness(true);
         delta += TimerUtils.getDelta()*1000;

@@ -17,15 +17,15 @@ public abstract class WaterSplash extends SkillFactory
     public static int width = 264;
     public static int height = 308;
     public static float damage = 20;
-    public static float duration = 5000;
+    public static float duration = 1000;
     public static int times = 1;
     public static float xAccelerate = 0;
     public static float yAccelerate = 0;
     public static float cd = 500;
     public static int id_up = R.drawable.waterspalsh_up;
-    public static int id_down = R.drawable.waterspalsh_up;
+    public static int id_down = R.drawable.waterspalsh_down;
     public static float offsetX = 100;
-    public static float offsetY = 0;
+    public static float offsetY = 20;
 
     public static Skill getSkill(EntitySprite sprite)
     {

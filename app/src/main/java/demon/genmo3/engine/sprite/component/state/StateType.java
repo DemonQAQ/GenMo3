@@ -11,7 +11,6 @@ public enum StateType
     ATTACK1("ATTACK1"),
     ATTACK2("ATTACK2"),
     ATTACK3("ATTACK3"),
-    ATTACKED("ATTACKED"),
     SKILL1("SKILL1"),
     SKILL2("SKILL2"),
     SKILL3("SKILL3"),

@@ -9,8 +9,8 @@ import demon.genmo3.engine.utils.TextureUtils;
 public class Attack
 {
     public static float mp = 0;
-    public static int width = 264;
-    public static int height = 308;
+    public static int width = 150;
+    public static int height = 250;
     public static float damage = 20;
     public static float duration = 250;
     public static int times = 1;

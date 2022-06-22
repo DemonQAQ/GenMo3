@@ -7,6 +7,7 @@ public class ValueUtils
     public static float ATTACK1_TIME;
     public static float ATTACK2_TIME;
     public static float ATTACK3_TIME;
+    public static float CAST_TIME;
 
     public static void init(int screenWidth,int screenHeight)
     {
@@ -27,5 +28,10 @@ public class ValueUtils
     public static void setAttack3Time(float attack3Time)
     {
         ATTACK3_TIME = attack3Time;
+    }
+
+    public static void setCastTime(float castTime)
+    {
+        CAST_TIME = castTime;
     }
 }

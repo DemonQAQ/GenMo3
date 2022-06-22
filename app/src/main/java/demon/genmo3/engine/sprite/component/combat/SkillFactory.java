@@ -14,8 +14,4 @@ public abstract class SkillFactory
     {
     }
 
-    public static Skill getSkill(EntitySprite sprite)
-    {
-        return null;
-    }
 }

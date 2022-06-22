@@ -39,8 +39,8 @@ public class MobEntity extends EntitySprite
     {
         super.onUpdate();
         flashMapLocation();
-        Log.i("mobHp", String.valueOf(getAttribute().getHp()));
-        Log.i("death", String.valueOf(isDeath()));
+//        Log.i("mobHp", String.valueOf(getAttribute().getHp()));
+//        Log.i("death", String.valueOf(isDeath()));
     }
 
     @Override

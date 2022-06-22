@@ -108,7 +108,7 @@ public class SkillEntity implements Combat
     @Override
     public void damage(Combat e)
     {
-        if (e == this || e == this.damageSource || e.isNumbness() || e.isDeath()) return;
+        if (e instanceof SkillEntity || e == this.damageSource || e.isNumbness() || e.isDeath()) return;
         else
         {
             Attributes attributes = e.getAttribute();

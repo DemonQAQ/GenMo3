@@ -1,17 +1,16 @@
 package demon.genmo3.game.entity;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import demon.genmo3.engine.control.Keys;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
-import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
-import demon.genmo3.engine.utils.ValueUtils;
+import demon.genmo3.game.skill.AirBurst;
 import demon.genmo3.game.skill.Attack;
+import demon.genmo3.game.skill.Explosion;
 import demon.genmo3.game.skill.ThumpAttack;
 import demon.genmo3.game.skill.WaterSplash;
+import demon.genmo3.game.skill.WindBreath;
 
 public class LocalPlayer extends EntitySprite
 {
@@ -19,6 +18,9 @@ public class LocalPlayer extends EntitySprite
     {
         super(x, y, texture, width, height, 0);
         setSkill1(WaterSplash.getSkill(this));
+        setSkill2(Explosion.getSkill(this));
+        setSkill3(AirBurst.getSkill(this));
+        setSkill4(WindBreath.getSkill(this));
         setAttack(Attack.getSkill(this));
         setThumpAttack(ThumpAttack.getSkill(this));
     }

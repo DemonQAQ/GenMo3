@@ -8,8 +8,8 @@ import demon.genmo3.engine.sprite.component.combat.SkillFactory;
 public class ThumpAttack extends SkillFactory
 {
     public static float mp = 0;
-    public static int width = 264;
-    public static int height = 308;
+    public static int width = 150;
+    public static int height = 250;
     public static float damage = 40;
     public static float duration = 300;
     public static int times = 1;

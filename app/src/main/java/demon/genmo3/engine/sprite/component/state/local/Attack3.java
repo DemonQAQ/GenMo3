@@ -22,7 +22,6 @@ public class Attack3 extends State
     @Override
     public State tryTranslate(StateMachine stateMachine)
     {
-        Log.d("state", this.type +","+delta);
         delta += TimerUtils.getDelta()*1000;
         if (delta >= ValueUtils.ATTACK3_TIME)
         {

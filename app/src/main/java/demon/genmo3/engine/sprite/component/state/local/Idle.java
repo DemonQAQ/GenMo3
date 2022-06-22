@@ -35,6 +35,30 @@ public class Idle extends State
         {
             stateMachine.setDirection(false);
         }
+        if (Keys.SKILL1.use())
+        {
+            stateMachine.getSprite().cast(1);
+            stateMachine.setPreState(this.type);
+            return StateList.getState(StateType.SKILL1,0);
+        }
+        if (Keys.SKILL2.use())
+        {
+            stateMachine.getSprite().cast(2);
+            stateMachine.setPreState(this.type);
+            return StateList.getState(StateType.SKILL2,0);
+        }
+        if (Keys.SKILL3.use())
+        {
+            stateMachine.getSprite().cast(3);
+            stateMachine.setPreState(this.type);
+            return StateList.getState(StateType.SKILL3,0);
+        }
+        if (Keys.SKILL4.use())
+        {
+            stateMachine.getSprite().cast(4);
+            stateMachine.setPreState(this.type);
+            return StateList.getState(StateType.SKILL4,0);
+        }
         if (Keys.ATTACK.use())
         {
             if (isAttack1)

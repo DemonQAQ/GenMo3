@@ -68,7 +68,7 @@ public class EntitySprite extends Sprite implements Gravity, Movable, Drawable, 
             dynamic = true;
             this.texture1 = (DynamicTexture) texture;
         } else this.texture = texture;
-        this.attributes = new Attributes(50, 500, 10, 10, 10, 10, 10, 10);
+        this.attributes = new Attributes(500, 500, 10, 10, 10, 10, 10, 10);
         this.collisionBox = new CollisionBox(getXPoint() - width / 2f, getYPoint() - height / 2f, width, height);
         this.stateMachine = new StateMachine(this, type);
     }
