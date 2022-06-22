@@ -67,17 +67,12 @@ public class SkillEntity implements Combat
             EngineUtils.getRender().addEnd(this.effectTexture);
         }
         EngineUtils.getCombat().add(this);
-        EngineUtils.getRender().addEnd(this.damageArea.area);
     }
 
-    //todo clear debug
     private void end()
     {
-        Log.i("end", "结束开始");
         EngineUtils.getCombat().remove(this);
         if (effectTexture != null) EngineUtils.getRender().removeEnd(this.effectTexture);
-        EngineUtils.getRender().removeEnd(this.damageArea.area);
-        Log.i("end", "结束完成");
     }
 
     @Override

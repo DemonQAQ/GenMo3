@@ -28,6 +28,5 @@ public class DamageArea
     {
         this.area.x = x;
         this.area.y = y;
-        //Log.i("伤害区域坐标", "(" + this.area.x + "," + this.area.y + ")");
     }
 }
