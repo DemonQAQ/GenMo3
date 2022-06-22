@@ -8,7 +8,7 @@ import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.utils.EngineUtils;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;
-import demon.genmo3.game.entity.MobEntity;
+import demon.genmo3.engine.sprite.entity.MobEntity;
 
 public class SkillEntity implements Combat
 {

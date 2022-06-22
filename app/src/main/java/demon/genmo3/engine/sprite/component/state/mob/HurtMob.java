@@ -1,14 +1,12 @@
 package demon.genmo3.engine.sprite.component.state.mob;
 
-import android.util.Log;
-
 import demon.genmo3.engine.control.KeyEvent;
 import demon.genmo3.engine.sprite.component.state.State;
 import demon.genmo3.engine.sprite.component.state.StateList;
 import demon.genmo3.engine.sprite.component.state.StateMachine;
 import demon.genmo3.engine.sprite.component.state.StateType;
 import demon.genmo3.engine.utils.TimerUtils;
-import demon.genmo3.game.entity.MobEntity;
+import demon.genmo3.engine.sprite.entity.MobEntity;
 
 public class HurtMob extends State
 {

@@ -1,16 +1,12 @@
-package demon.genmo3.game.entity;
-
-import android.util.Log;
+package demon.genmo3.engine.sprite.entity;
 
 import java.util.Random;
 
-import demon.genmo3.R;
 import demon.genmo3.engine.control.KeyEvent;
 import demon.genmo3.engine.physics.Movable;
 import demon.genmo3.engine.render.DynamicTexture;
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;
-import demon.genmo3.engine.sprite.component.CollisionBox;
 import demon.genmo3.engine.utils.AnimationsUtils;
 import demon.genmo3.engine.utils.MapUtils;
 import demon.genmo3.engine.utils.TimerUtils;

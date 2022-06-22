@@ -1,4 +1,4 @@
-package demon.genmo3.game.entity;
+package demon.genmo3.engine.sprite.entity;
 
 import demon.genmo3.engine.render.Texture;
 import demon.genmo3.engine.sprite.EntitySprite;

@@ -13,41 +13,24 @@ import android.widget.ImageButton;
 import demon.genmo3.R;
 import demon.genmo3.engine.control.ButtonListener;
 import demon.genmo3.engine.control.KeyEvent;
-import demon.genmo3.engine.render.DynamicTexture;
-import demon.genmo3.engine.render.Texture;
-import demon.genmo3.engine.sprite.EntitySprite;
-import demon.genmo3.engine.sprite.component.map.GroundSprite;
-import demon.genmo3.engine.sprite.component.map.MapSprite;
-import demon.genmo3.engine.sprite.component.map.WallSprite;
-import demon.genmo3.engine.utils.AnimationsUtils;
-import demon.genmo3.engine.utils.MapUtils;
-import demon.genmo3.engine.utils.EngineUtils;
-import demon.genmo3.engine.utils.TextureUtils;
-import demon.genmo3.engine.utils.ValueUtils;
 import demon.genmo3.game.core.Engine;
-import demon.genmo3.game.entity.LocalPlayer;
-import demon.genmo3.game.entity.MobEntity;
-import demon.genmo3.game.skill.Attack;
-import demon.genmo3.game.skill.WaterSplash;
+import demon.genmo3.engine.sprite.entity.LocalPlayer;
+import demon.genmo3.game.manager.ContentManager;
 
 public class MainActivity extends AppCompatActivity
 {
     private Resources resources;
     private Engine engine;
-
     private ImageButton attack;
     private ImageButton jump;
     private ImageButton left;
     private ImageButton right;
-    private ImageButton skill1;
-    private ImageButton skill2;
-    private ImageButton skill3;
-    private ImageButton skill4;
-    private ImageButton item;
-
-    EntitySprite player;
-    MapSprite m;
-
+    public ImageButton skill1;
+    public ImageButton skill2;
+    public ImageButton skill3;
+    public ImageButton skill4;
+    public ImageButton item;
+    public LocalPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,8 +54,8 @@ public class MainActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.hide();
         setContentView(R.layout.activity_main);
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         engine = findViewById(R.id.gameView);
+        resources = this.getResources();
         //初始化按钮
         attack = findViewById(R.id.attack);
         jump = findViewById(R.id.jump);
@@ -98,45 +81,16 @@ public class MainActivity extends AppCompatActivity
     @SuppressLint("WrongViewCast")
     private void gameInit()
     {
-        resources = this.getResources();
-        TextureUtils.init(resources);
-        AnimationsUtils.init();
-        //创建引擎部分
-        DynamicTexture dynamicTexture = TextureUtils.getDynamicTexture(R.drawable.idle,4,1,4,100,true);
-        DynamicTexture GOLEM_IDLE = TextureUtils.getDynamicTexture(R.drawable.golemidle,3,3,9,100,true);
-        player = new LocalPlayer(1000, 300, dynamicTexture, 160, 250);
-        Texture img = TextureUtils.getTexture(R.drawable.background);
-        ValueUtils.init(2160,1080);
-        m = new MapSprite(img, 2160, 1080, player, 2280, 1528);
-        MapUtils.changeMap(m);
-        EngineUtils.init(engine);
-        player.setOnGround(false);
-        MobEntity mob = new MobEntity(1200,300,GOLEM_IDLE,160,250);
-        GroundSprite ground = new GroundSprite(TextureUtils.getTexture(R.drawable.ground), 0, 1845, 3489, 313);
-        WallSprite ground1 = new WallSprite(TextureUtils.getTexture(R.drawable.wall1), 3489, 1715, 831, 445);
-        WallSprite ground2 = new WallSprite(TextureUtils.getTexture(R.drawable.wall2), 0, 1341, 1144, 231);
-        WallSprite ground3 = new WallSprite(TextureUtils.getTexture(R.drawable.wall3), 1576, 1043, 492, 187);
-        WallSprite ground4 = new WallSprite(TextureUtils.getTexture(R.drawable.wall3), 2242, 813, 492, 187);
-        WallSprite ground5 = new WallSprite(TextureUtils.getTexture(R.drawable.wall3), 2833, 1172, 492, 187);
-        m.add(ground);
-        m.add(ground1);
-        m.add(ground2);
-        m.add(ground3);
-        m.add(ground4);
-        m.add(ground5);
-        engine.combatSpriteQueue.add(player);
-        engine.combatSpriteQueue.add(mob);
-        engine.executableSpriteQueue.add(player);
-        engine.executableSpriteQueue.add(mob);
-        engine.executableSpriteQueue.add(m);
-        engine.physicsSpriteQueue.setMap(m);
-        engine.physicsSpriteQueue.add(mob);
-        engine.renderSpriteQueue.add(m);
-        engine.renderSpriteQueue.add(mob);
-        engine.renderSpriteQueue.add(player);
-        engine.renderSpriteQueue.add(player.getCollisionBox());
-        engine.physicsSpriteQueue.add(player);
-        engine.physicsSpriteQueue.addMDI(m);
+        player = ContentManager.init(resources,engine);
+        buttonCheck();
+    }
+
+    private void buttonCheck()
+    {
+        if (player.getSkill1()!=null)this.skill1.setBackgroundResource(player.getSkill1().icon_up);
+        if (player.getSkill2()!=null)this.skill2.setBackgroundResource(player.getSkill2().icon_up);
+        if (player.getSkill3()!=null)this.skill3.setBackgroundResource(player.getSkill3().icon_up);
+        if (player.getSkill4()!=null)this.skill4.setBackgroundResource(player.getSkill4().icon_up);
     }
 
     @Override
