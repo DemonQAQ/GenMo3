@@ -26,7 +26,7 @@ public class MobEntity extends EntitySprite
         super(x, y, texture, width, height, 2);
         this.range = 500;
         this.keyValue = KeyEvent.NONE;
-        setxRunAccelerate(500);
+        setxRunAccelerate(200);
         flashMapLocation();
     }
 
